@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   //This method draws the board tiles
   private void drawBoard() {
-    boolean isBlack = false;
+    boolean isBlack = true;
     for (int x = ACTUAL_SIZE/2; x < WIDTH - ACTUAL_SIZE; x += ACTUAL_SIZE) {
       isBlack = !isBlack;
       for (int y = 0; y < HEIGHT - ACTUAL_SIZE; y += ACTUAL_SIZE) {
@@ -63,6 +63,19 @@ public class GamePanel extends JPanel implements Runnable {
     for (int i = ACTUAL_SIZE/2; i < WIDTH - ACTUAL_SIZE; i += ACTUAL_SIZE) {
       gameObjects.add(new Pawn(i, ACTUAL_SIZE, GameObject.tileColor.BLACK, this));
     }
+    //draw rooks
+    gameObjects.add(new Rook(ACTUAL_SIZE/2, 0, GameObject.tileColor.BLACK, this));
+    gameObjects.add(new Rook( WIDTH -  2 * ACTUAL_SIZE + ACTUAL_SIZE/2, 0, GameObject.tileColor.BLACK, this));
+    //draw knights
+    gameObjects.add(new Knight(ACTUAL_SIZE/2 + ACTUAL_SIZE, 0 , GameObject.tileColor.BLACK, this));
+    gameObjects.add(new Knight(WIDTH - 3 * ACTUAL_SIZE + ACTUAL_SIZE/2, 0 , GameObject.tileColor.BLACK, this));
+    //draw bishops
+    gameObjects.add(new Bishop(ACTUAL_SIZE/2 + 2 * ACTUAL_SIZE, 0 , GameObject.tileColor.BLACK, this));
+    gameObjects.add(new Bishop(WIDTH - 4 * ACTUAL_SIZE + ACTUAL_SIZE/2, 0 , GameObject.tileColor.BLACK, this));
+    //draw queen
+    gameObjects.add(new Queen(ACTUAL_SIZE/2 + 3 * ACTUAL_SIZE, 0 , GameObject.tileColor.BLACK, this));
+    //draw king
+    gameObjects.add(new King(ACTUAL_SIZE/2 + 4 * ACTUAL_SIZE, 0 , GameObject.tileColor.BLACK, this));
 
 
     //draw white pieces
@@ -70,6 +83,19 @@ public class GamePanel extends JPanel implements Runnable {
     for (int i = ACTUAL_SIZE/2; i < WIDTH - ACTUAL_SIZE; i += ACTUAL_SIZE) {
       gameObjects.add(new Pawn(i, HEIGHT - 3 * ACTUAL_SIZE, GameObject.tileColor.WHITE, this));
     }
+    //draw rooks
+    gameObjects.add(new Rook(ACTUAL_SIZE/2, HEIGHT - 2 * ACTUAL_SIZE, GameObject.tileColor.WHITE, this));
+    gameObjects.add(new Rook( WIDTH -  2 * ACTUAL_SIZE + ACTUAL_SIZE/2, HEIGHT - 2 * ACTUAL_SIZE, GameObject.tileColor.WHITE, this));
+    //draw knights
+    gameObjects.add(new Knight(ACTUAL_SIZE/2 + ACTUAL_SIZE, HEIGHT - 2 * ACTUAL_SIZE , GameObject.tileColor.WHITE, this));
+    gameObjects.add(new Knight(WIDTH - 3 * ACTUAL_SIZE + ACTUAL_SIZE/2, HEIGHT - 2 * ACTUAL_SIZE, GameObject.tileColor.WHITE, this));
+    //draw bishops
+    gameObjects.add(new Bishop(ACTUAL_SIZE/2 + 2 * ACTUAL_SIZE, HEIGHT - 2 * ACTUAL_SIZE , GameObject.tileColor.WHITE, this));
+    gameObjects.add(new Bishop(WIDTH - 4 * ACTUAL_SIZE + ACTUAL_SIZE/2, HEIGHT - 2 * ACTUAL_SIZE, GameObject.tileColor.WHITE, this));
+    //draw queen
+    gameObjects.add(new Queen(ACTUAL_SIZE/2 + 3 * ACTUAL_SIZE, HEIGHT - 2 * ACTUAL_SIZE, GameObject.tileColor.WHITE, this));
+    //draw king
+    gameObjects.add(new King(ACTUAL_SIZE/2 + 4 * ACTUAL_SIZE, HEIGHT - 2 * ACTUAL_SIZE, GameObject.tileColor.WHITE, this));
   }
 
   @Override
