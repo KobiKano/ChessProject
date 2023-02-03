@@ -1,11 +1,10 @@
 import java.awt.*;
 
-public class Tile implements GameObject{
+public class Tile implements BoardTile {
   //fields for this class
   int xPos;
   int yPos;
   tileColor color;
-  boolean beenMoved = false;
   GamePanel game;
   InputChecker inputChecker;
 
@@ -17,42 +16,18 @@ public class Tile implements GameObject{
     this.game = game;
     this.inputChecker = inputChecker;
   }
-
-  @Override
-  public boolean hasBeenMoved() {
-  return beenMoved;
-  }
-  @Override
-  public int getXPos() {
-  return 0;
-  }
-  @Override
-  public int getYPos() {
-  return 0;
-  }
-  @Override
-  public void setYPos() {
-
-  }
-  @Override
-  public void setXPos() {
-
-  }
-  @Override
-  public void update() {
-
-  }
   @Override
   public void draw(Graphics2D graphics) {
     //set object color
+    graphics.setColor(Color.BLACK);
+
     if (color == tileColor.BLACK) {
-      graphics.setColor(Color.BLACK);
+      //draw image
+      graphics.fillRect(xPos, yPos, game.ACTUAL_SIZE, game.ACTUAL_SIZE);
     }
     else {
-      graphics.setColor(Color.WHITE);
+      //draw image
+      graphics.drawRect(xPos, yPos, game.ACTUAL_SIZE, game.ACTUAL_SIZE);
     }
-
-    //draw image
-    graphics.fillRect(xPos, yPos, game.ACTUAL_SIZE, game.ACTUAL_SIZE);
   }
 }

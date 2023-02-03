@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class GamePanel extends JPanel implements Runnable {
   JFrame window;
@@ -10,8 +11,8 @@ public class GamePanel extends JPanel implements Runnable {
   final int SCALE = 5;
   final int ACTUAL_SIZE = TILE_SIZE * SCALE; //scale up for monitor size
 
-  final int COLUMNS = 8; //define size of board
-  final int ROWS = 8;
+  final int COLUMNS = 9; //define size of board
+  final int ROWS = 9;
 
   final int WIDTH = COLUMNS * ACTUAL_SIZE;  //translate to window dimensions
   final int HEIGHT = ROWS * ACTUAL_SIZE;
@@ -19,7 +20,8 @@ public class GamePanel extends JPanel implements Runnable {
   //create game variables
   InputChecker inputChecker = new InputChecker();
   Thread gameThread;
-  ArrayList<GameObject> gameObjects = new ArrayList<>();
+  LinkedList<BoardTile> tiles = new LinkedList<>();
+  LinkedList<GameObject> gameObjects = new LinkedList<>();
   final int FPS = 60;
 
   //constructor for class
@@ -33,20 +35,21 @@ public class GamePanel extends JPanel implements Runnable {
     this.setFocusable(true);
     //start game
     drawBoard();
+    drawPieces();
     startGameThread();
   }
 
   //This method draws the board tiles
   private void drawBoard() {
     boolean isBlack = false;
-    for (int x = 0; x < WIDTH; x += ACTUAL_SIZE) {
+    for (int x = ACTUAL_SIZE/2; x < WIDTH - ACTUAL_SIZE; x += ACTUAL_SIZE) {
       isBlack = !isBlack;
-      for (int y = 0; y < HEIGHT; y += ACTUAL_SIZE) {
+      for (int y = 0; y < HEIGHT - ACTUAL_SIZE; y += ACTUAL_SIZE) {
         if (isBlack) {
-          gameObjects.add(new Tile(x,y, GameObject.tileColor.BLACK, this, inputChecker));
+          tiles.add(new Tile(x,y, BoardTile.tileColor.BLACK, this, inputChecker));
         }
         else {
-          gameObjects.add(new Tile(x,y, GameObject.tileColor.WHITE, this, inputChecker));
+          tiles.add(new Tile(x,y, BoardTile.tileColor.WHITE, this, inputChecker));
         }
         isBlack = !isBlack;
       }
@@ -55,7 +58,18 @@ public class GamePanel extends JPanel implements Runnable {
 
   //This method draws all the pieces
   private void drawPieces() {
+    //draw black pieces
+    //draw pawns
+    for (int i = ACTUAL_SIZE/2; i < WIDTH - ACTUAL_SIZE; i += ACTUAL_SIZE) {
+      gameObjects.add(new Pawn(i, ACTUAL_SIZE, GameObject.tileColor.BLACK, this));
+    }
 
+
+    //draw white pieces
+    //draw pawns
+    for (int i = ACTUAL_SIZE/2; i < WIDTH - ACTUAL_SIZE; i += ACTUAL_SIZE) {
+      gameObjects.add(new Pawn(i, HEIGHT - 3 * ACTUAL_SIZE, GameObject.tileColor.WHITE, this));
+    }
   }
 
   @Override
@@ -104,10 +118,16 @@ public class GamePanel extends JPanel implements Runnable {
 
   public void paintComponent(Graphics graphics) {
     super.paintComponent(graphics);
+    //draw board
     Graphics2D graphics2D = (Graphics2D)graphics;
+    for (BoardTile object : tiles) {
+      object.draw(graphics2D);
+    }
     for (GameObject object : gameObjects) {
       object.draw(graphics2D);
     }
+
+    //end graphics process
     graphics2D.dispose();
   }
 }

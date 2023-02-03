@@ -6,10 +6,10 @@ public interface GameObject {
     BLACK, WHITE
   }
   public boolean hasBeenMoved();
+  public int getCost();
   public int getXPos();
   public int getYPos();
-  public void setYPos();
-  public void setXPos();
-  public void update();
+  public void setYPos(int yPos);
+  public void setXPos(int xPos);
   public void draw(Graphics2D graphics);
 }
