@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Bishop implements GameObject{
   boolean beenMoved = false;
@@ -10,12 +11,14 @@ public class Bishop implements GameObject{
   GameObject.tileColor color;
   BufferedImage sprite;
   GamePanel game;
+  Tile currTile;
 
-  public Bishop(int xPos, int yPos, GameObject.tileColor color, GamePanel game) {
+  public Bishop(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
     this.game = game;
+    this.currTile = currTile;
 
     //assign sprite image
     try {
@@ -42,28 +45,61 @@ public class Bishop implements GameObject{
   }
 
   @Override
+  public tileColor getColor() {
+    return color;
+  }
+
+  @Override
+  public int getSize() {
+    return game.ACTUAL_SIZE;
+  }
+
+  @Override
   public int getXPos() {
-    return 0;
+    return xPos;
   }
 
   @Override
   public int getYPos() {
-    return 0;
+    return yPos;
   }
 
   @Override
   public void setYPos(int yPos) {
-
+    this.yPos = yPos;
   }
 
   @Override
   public void setXPos(int xPos) {
-
+    this.xPos = xPos;
   }
 
   @Override
   public void draw(Graphics2D graphics) {
     //draw image
     graphics.drawImage(sprite, xPos, yPos, game.ACTUAL_SIZE, game.ACTUAL_SIZE, null);
+  }
+
+  @Override
+  public String toString() {
+    return "Bishop";
+  }
+
+  @Override
+  public Tile getCurrTile() {
+    return currTile;
+  }
+
+  @Override
+  public void setCurrTile(Tile currTile) {
+    currTile.currPiece = this;
+    this.currTile = currTile;
+  }
+
+  @Override
+  public ArrayList<Tile> getPossibleMoves() {
+    ArrayList<Tile> output = new ArrayList<>();
+
+    return output;
   }
 }
