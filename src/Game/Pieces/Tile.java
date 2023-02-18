@@ -1,3 +1,8 @@
+package Game.Pieces;
+
+import Game.GamePanel;
+import Game.InputChecker;
+
 import java.awt.*;
 
 public class Tile{
@@ -6,10 +11,10 @@ public class Tile{
   }
 
   //fields for this class
-  int xPos;
-  int yPos;
-  boolean isSelected = false;
-  tileColor color;
+  public int xPos;
+  public int yPos;
+  public boolean isSelected = false;
+  public tileColor color;
   GamePanel game;
   InputChecker inputChecker;
 

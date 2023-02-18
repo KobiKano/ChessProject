@@ -1,3 +1,7 @@
+package Game;
+
+import Game.Pieces.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -6,15 +10,15 @@ import java.util.LinkedList;
 public class GamePanel extends JPanel implements Runnable {
   JFrame window;
   //define screen size
-  final int TILE_SIZE = 16;  //16 x 16 tiles
-  final int SCALE = 5;
-  final int ACTUAL_SIZE = TILE_SIZE * SCALE; //scale up for monitor size
+  public final int TILE_SIZE = 16;  //16 x 16 tiles
+  public final int SCALE = 5;
+  public final int ACTUAL_SIZE = TILE_SIZE * SCALE; //scale up for monitor size
 
-  final int COLUMNS = 9; //define size of board
-  final int ROWS = 9;
+  public final int COLUMNS = 9; //define size of board
+  public final int ROWS = 9;
 
-  final int WIDTH = COLUMNS * ACTUAL_SIZE;  //translate to window dimensions
-  final int HEIGHT = ROWS * ACTUAL_SIZE;
+  public final int WIDTH = COLUMNS * ACTUAL_SIZE;  //translate to window dimensions
+  public final int HEIGHT = ROWS * ACTUAL_SIZE;
 
   //create game variables
   LinkedList<Tile> tiles = new LinkedList<>();
@@ -183,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     //check if piece is king
-    if (piece.toString().equals("King")) {
+    if (piece.toString().equals("Game.Pieces.King")) {
       gameOver = true;
     }
     //else subtract points
@@ -196,6 +200,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //remove piece
     gameObjects.removeIf(object->object == piece);
+    mouseChecker.pieceToRemove = null;
 
     printScore();
   }

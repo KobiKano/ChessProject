@@ -1,10 +1,15 @@
+package Game.Pieces;
+
+import Game.GamePanel;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class King implements GameObject{
+public class Rook implements GameObject{
   boolean beenMoved = false;
   int xPos;
   int yPos;
@@ -13,20 +18,23 @@ public class King implements GameObject{
   GamePanel game;
   Tile currTile;
 
-  public King(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
+  public Rook(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
     this.game = game;
     this.currTile = currTile;
+    currTile.currPiece = this;
 
     //assign sprite image
     try {
       if (color == tileColor.BLACK) {
-        sprite = ImageIO.read(getClass().getResourceAsStream("./sprites/black_king.png"));
+        sprite = ImageIO.read(
+            Objects.requireNonNull(getClass().getResourceAsStream("../..//sprites/black_rook.png")));
       }
       else {
-        sprite = ImageIO.read(getClass().getResourceAsStream("./sprites/white_king.png"));
+        sprite = ImageIO.read(
+            Objects.requireNonNull(getClass().getResourceAsStream("../..//sprites/white_rook.png")));
       }
     }
     catch (IOException e) {
@@ -41,7 +49,7 @@ public class King implements GameObject{
 
   @Override
   public int getCost() {
-    return 0;
+    return 5;
   }
 
   @Override
@@ -82,7 +90,7 @@ public class King implements GameObject{
 
   @Override
   public String toString() {
-    return "King";
+    return "Game.Pieces.Rook";
   }
 
   @Override

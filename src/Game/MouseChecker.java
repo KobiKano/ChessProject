@@ -1,3 +1,8 @@
+package Game;
+
+import Game.Pieces.GameObject;
+import Game.Pieces.Tile;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -74,7 +79,7 @@ public class MouseChecker implements MouseListener {
         yMin = tile.yPos;
 
         if (xPos > xMin && yPos > yMin && xPos < xMax && yPos < yMax) {
-          System.out.println("Tile selected");
+          System.out.println("Game.Pieces.Tile selected");
           //check if piece taken
           if (tile.currPiece != null) {
             pieceToRemove = tile.currPiece;

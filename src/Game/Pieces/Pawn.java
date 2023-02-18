@@ -1,11 +1,17 @@
+package Game.Pieces;
+
+import Game.GamePanel;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class Rook implements GameObject{
+public class Pawn implements GameObject{
   boolean beenMoved = false;
+  boolean firstMove = true;
   int xPos;
   int yPos;
   GameObject.tileColor color;
@@ -13,20 +19,23 @@ public class Rook implements GameObject{
   GamePanel game;
   Tile currTile;
 
-  public Rook(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
+  public Pawn(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
     this.game = game;
     this.currTile = currTile;
+    currTile.currPiece = this;
 
     //assign sprite image
     try {
       if (color == tileColor.BLACK) {
-        sprite = ImageIO.read(getClass().getResourceAsStream("./sprites/black_rook.png"));
+        sprite = ImageIO.read(
+            Objects.requireNonNull(getClass().getResourceAsStream("../../sprites/black_pawn.png")));
       }
       else {
-        sprite = ImageIO.read(getClass().getResourceAsStream("./sprites/white_rook.png"));
+        sprite = ImageIO.read(
+            Objects.requireNonNull(getClass().getResourceAsStream("../../sprites/white_pawn.png")));
       }
     }
     catch (IOException e) {
@@ -41,7 +50,7 @@ public class Rook implements GameObject{
 
   @Override
   public int getCost() {
-    return 0;
+    return 1;
   }
 
   @Override
@@ -82,7 +91,7 @@ public class Rook implements GameObject{
 
   @Override
   public String toString() {
-    return "Rook";
+    return "Game.Pieces.Pawn";
   }
 
   @Override
@@ -99,7 +108,27 @@ public class Rook implements GameObject{
   @Override
   public ArrayList<Tile> getPossibleMoves() {
     ArrayList<Tile> output = new ArrayList<>();
+    //check if first move and color
+    if (firstMove && color == tileColor.WHITE) {
+      output.add(currTile.above);
+      output.add(currTile.above.above);
+      firstMove = false;
+    }
+    else if (firstMove && color == tileColor.BLACK) {
+      output.add(currTile.below);
+      output.add(currTile.below.below);
+      firstMove = false;
+    }
 
+    //if not first move
+    else if (!firstMove && color == tileColor.WHITE) {
+      output.add(currTile.above);
+    }
+    else if (!firstMove && color == tileColor.BLACK) {
+      output.add(currTile.below);
+    }
+
+    //return possible moves
     return output;
   }
 }
