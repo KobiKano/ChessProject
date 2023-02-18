@@ -1,6 +1,7 @@
 package Game;
 
 import Game.Pieces.GameObject;
+import Game.Pieces.Pawn;
 import Game.Pieces.Tile;
 
 import java.awt.event.MouseEvent;
@@ -8,18 +9,20 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class MouseChecker implements MouseListener {
+public class Updater implements MouseListener {
   public boolean leftPressed = false;
   public int xPos = 0;
   public int yPos = 0;
   LinkedList<GameObject> gameObjects;
+  GamePanel game;
   GameObject currPiece = null;
   ArrayList<Tile> possibleMoves = null;
   GameObject pieceToRemove = null;
 
   //constructor for class
-  public MouseChecker(LinkedList<GameObject> gameObjects) {
+  public Updater(LinkedList<GameObject> gameObjects, GamePanel game) {
     this.gameObjects = gameObjects;
+    this.game = game;
   }
 
   @Override
@@ -40,7 +43,14 @@ public class MouseChecker implements MouseListener {
         yMin = object.getYPos();
         //check if mouse is over game object
         if (xPos > xMin && yPos > yMin && xPos < xMax && yPos < yMax) {
-          System.out.println("Selected Object: " + object.toString());
+          System.out.println("Selected Object: " + object);
+          //check if not turn
+          if ((object.getColor() == GameObject.tileColor.BLACK && !game.blackTurn) ||
+                  (object.getColor() == GameObject.tileColor.WHITE && game.blackTurn)) {
+            System.out.println("Not your turn!");
+            return;
+          }
+
           currPiece = object;
           possibleMoves = currPiece.getPossibleMoves();
           //set all possible tiles to selected
@@ -63,6 +73,10 @@ public class MouseChecker implements MouseListener {
       yMin = currPiece.getYPos();
       if (xPos > xMin && yPos > yMin && xPos < xMax && yPos < yMax) {
         System.out.println("Piece unselected: " + currPiece.toString());
+        //check if piece is a pawn
+        if (currPiece.toString().equals("pawn")) {
+          ((Pawn)currPiece).firstMove = true;
+        }
         //deselect all tiles and piece
         for (Tile tile : possibleMoves) {
           tile.isSelected = false;
@@ -79,11 +93,14 @@ public class MouseChecker implements MouseListener {
         yMin = tile.yPos;
 
         if (xPos > xMin && yPos > yMin && xPos < xMax && yPos < yMax) {
-          System.out.println("Game.Pieces.Tile selected");
+          System.out.println("Tile selected");
           //check if piece taken
           if (tile.currPiece != null) {
             pieceToRemove = tile.currPiece;
           }
+
+          //switch turn boolean
+          game.blackTurn = !game.blackTurn;
 
           currPiece.setXPos(tile.xPos);
           currPiece.setYPos(tile.yPos);

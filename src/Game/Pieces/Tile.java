@@ -16,7 +16,6 @@ public class Tile{
   public boolean isSelected = false;
   public tileColor color;
   GamePanel game;
-  InputChecker inputChecker;
 
   public Tile above = null;
   public Tile below = null;
@@ -25,12 +24,11 @@ public class Tile{
   public GameObject currPiece = null;
 
   //constructor for class
-  public Tile(int xPos, int yPos, tileColor color, GamePanel game, InputChecker inputChecker) {
+  public Tile(int xPos, int yPos, tileColor color, GamePanel game) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
     this.game = game;
-    this.inputChecker = inputChecker;
   }
 
   public void draw(Graphics2D graphics) {

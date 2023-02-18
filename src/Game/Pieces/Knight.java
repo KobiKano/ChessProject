@@ -90,7 +90,7 @@ public class Knight implements GameObject{
 
   @Override
   public String toString() {
-    return "Game.Pieces.Knight";
+    return "knight";
   }
 
   @Override

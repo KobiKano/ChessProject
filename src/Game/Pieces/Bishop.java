@@ -91,7 +91,7 @@ public class Bishop implements GameObject{
 
   @Override
   public String toString() {
-    return "Game.Pieces.Bishop";
+    return "bishop";
   }
 
   @Override

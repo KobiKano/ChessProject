@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class Pawn implements GameObject{
   boolean beenMoved = false;
-  boolean firstMove = true;
+  public boolean firstMove = true;
   int xPos;
   int yPos;
   GameObject.tileColor color;
@@ -91,7 +91,7 @@ public class Pawn implements GameObject{
 
   @Override
   public String toString() {
-    return "Game.Pieces.Pawn";
+    return "pawn";
   }
 
   @Override
