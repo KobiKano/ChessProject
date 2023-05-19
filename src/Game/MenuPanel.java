@@ -2,12 +2,11 @@ package Game;
 
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class MenuPanel extends JPanel {
   JFrame window;
-  public ChessGame.MutableDefinitions defs;
+  public ChessGame.MutableDefinitions definitions;
   final int WIDTH = 300;
   final int HEIGHT = 500;
   public static final int BUTTON_WIDTH = 100;
@@ -21,9 +20,9 @@ public class MenuPanel extends JPanel {
 
 
   //constructor for class
-  public MenuPanel(JFrame window, ChessGame.MutableDefinitions defs) {
+  public MenuPanel(JFrame window, ChessGame.MutableDefinitions definitions) {
     this.window = window;
-    this.defs = defs;
+    this.definitions = definitions;
 
     //set up menu panel
     this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -40,8 +39,8 @@ public class MenuPanel extends JPanel {
     exit = new JButton("Exit");
     black = new JButton("Black");
     white = new JButton("White");
-    difficulty = new JSlider(0,100,1);
-    difficultyText = new JTextField("Difficulty: 1");
+    difficulty = new JSlider(0,100,0);
+    difficultyText = new JTextField("Difficulty: 0");
 
     //add to menuPanel
     this.add(start);
@@ -56,7 +55,7 @@ public class MenuPanel extends JPanel {
     start.setBounds(WIDTH/2 - BUTTON_WIDTH/2, 50, BUTTON_WIDTH, BUTTON_HEIGHT);
     start.addActionListener(ActionListener->{
       System.out.println("Starting game!");
-      defs.setValue(true);
+      definitions.setValue(true);
     });
 
     //set parameters for exit button
@@ -69,7 +68,7 @@ public class MenuPanel extends JPanel {
     black.addActionListener(ActionListener->{
       white.setBackground(Color.GRAY);
       black.setBackground(Color.GREEN);
-      defs.setColor(ChessGame.PlayerColor.BLACK);
+      definitions.setColor(ChessGame.PlayerColor.BLACK);
       System.out.println("Color chosen: Black!");
     });
 
@@ -79,7 +78,7 @@ public class MenuPanel extends JPanel {
     white.addActionListener(ActionListener->{
       black.setBackground(Color.GRAY);
       white.setBackground(Color.GREEN);
-      defs.setColor(ChessGame.PlayerColor.WHITE);
+      definitions.setColor(ChessGame.PlayerColor.WHITE);
       System.out.println("Color chosen: White!");
     });
 
@@ -90,7 +89,7 @@ public class MenuPanel extends JPanel {
     difficulty.setPaintLabels(true);
     difficulty.addChangeListener(ChangeListener->{
       difficultyText.setText("Difficulty: " + difficulty.getValue());
-      defs.setDifficulty(difficulty.getValue());
+      definitions.setDifficulty(difficulty.getValue());
     });
 
     //set difficulty text parameters

@@ -34,11 +34,14 @@ public class GamePanel extends JPanel implements Runnable {
   boolean gameOver = false;
   boolean blackTurn = false;
   ChessGame.PlayerColor playerColor;
+  int difficulty;
 
   //constructor for class
-  public GamePanel(JFrame window, ChessGame.PlayerColor playerColor) {
+  public GamePanel(JFrame window, ChessGame.MutableDefinitions definitions) {
     this.window = window;
-    this.playerColor = playerColor;
+    this.playerColor = definitions.color;
+    this.difficulty = definitions.difficulty;
+
     //set game panel settings
     this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
     this.setBackground(Color.white);

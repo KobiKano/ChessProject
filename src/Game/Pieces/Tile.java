@@ -1,7 +1,6 @@
 package Game.Pieces;
 
 import Game.GamePanel;
-import Game.InputChecker;
 
 import java.awt.*;
 
@@ -13,6 +12,7 @@ public class Tile{
   //fields for this class
   public int xPos;
   public int yPos;
+  public boolean isValid = false;
   public boolean isSelected = false;
   public tileColor color;
   GamePanel game;
@@ -34,6 +34,14 @@ public class Tile{
   public void draw(Graphics2D graphics) {
     //check if tile is selected
     if (isSelected) {
+      graphics.setColor(Color.green);
+      //draw image
+      graphics.fill3DRect(xPos, yPos, game.ACTUAL_SIZE, game.ACTUAL_SIZE, true);
+      graphics.setColor(Color.BLACK);
+      graphics.draw3DRect(xPos, yPos, game.ACTUAL_SIZE, game.ACTUAL_SIZE, true);
+      return;
+    }
+    if (isValid) {
       graphics.setColor(Color.yellow);
       //draw image
       graphics.fill3DRect(xPos, yPos, game.ACTUAL_SIZE, game.ACTUAL_SIZE, true);

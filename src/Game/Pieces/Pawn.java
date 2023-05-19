@@ -101,7 +101,6 @@ public class Pawn implements GameObject{
 
   @Override
   public void setCurrTile(Tile currTile) {
-    currTile.currPiece = this;
     this.currTile = currTile;
   }
 
@@ -110,22 +109,46 @@ public class Pawn implements GameObject{
     ArrayList<Tile> output = new ArrayList<>();
     //check if first move and color
     if (firstMove && color == tileColor.WHITE) {
-      output.add(currTile.above);
-      output.add(currTile.above.above);
-      firstMove = false;
+      //check if other pieces in tile
+      if (currTile.above.currPiece == null) {
+        output.add(currTile.above);
+      }
+      if (currTile.above.above.currPiece == null && currTile.above.currPiece == null) {
+        output.add(currTile.above.above);
+      }
     }
     else if (firstMove && color == tileColor.BLACK) {
-      output.add(currTile.below);
-      output.add(currTile.below.below);
-      firstMove = false;
+      //check if other pieces in tile
+      if (currTile.below.currPiece == null) {
+        output.add(currTile.below);
+      }
+      if (currTile.below.below.currPiece == null && currTile.below.currPiece == null) {
+        output.add(currTile.below.below);
+      }
     }
 
     //if not first move
-    else if (!firstMove && color == tileColor.WHITE) {
+    else if (!firstMove && color == tileColor.WHITE && currTile.above.currPiece == null) {
       output.add(currTile.above);
     }
-    else if (!firstMove && color == tileColor.BLACK) {
+    else if (!firstMove && color == tileColor.BLACK && currTile.below.currPiece == null) {
       output.add(currTile.below);
+    }
+
+    //check if pieces to the left
+    if (currTile.above.left != null && color == tileColor.WHITE && currTile.above.left.currPiece != null && currTile.above.left.currPiece.getColor() == tileColor.BLACK) {
+      output.add(currTile.above.left);
+    }
+    else if (currTile.below.left != null && color == tileColor.BLACK && currTile.below.left.currPiece != null && currTile.below.left.currPiece.getColor() == tileColor.WHITE) {
+      output.add(currTile.below.left);
+    }
+
+    //check if pieces to the right
+    if (currTile.above.right != null && color == tileColor.WHITE && currTile.above.right.currPiece != null && currTile.above.right.currPiece.getColor() == tileColor.BLACK) {
+      output.add(currTile.above.right);
+    }
+    else if (currTile.below.right != null && color == tileColor.BLACK && currTile.below.right.currPiece != null && currTile.below.right.currPiece.getColor() == tileColor.WHITE) {
+      output.add(currTile.below.right);
     }
 
     //return possible moves

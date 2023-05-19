@@ -38,22 +38,22 @@ public class ChessGame {
     window.setLocationRelativeTo(null);
 
     //start menu screen
-    MutableDefinitions defs = new MutableDefinitions(false, PlayerColor.WHITE, 1); //default color white
-    MenuPanel menu = new MenuPanel(window, defs);
+    MutableDefinitions definitions = new MutableDefinitions(false, PlayerColor.WHITE, 1); //default color white
+    MenuPanel menu = new MenuPanel(window, definitions);
     window.add(menu);
     window.pack();
     window.setVisible(true);
 
     //wait until color selected
     System.out.println("Waiting for Player to start!");
-    while(!defs.value){System.out.print("");}  //do nothing
+    while(!definitions.value){System.out.print("");}  //do nothing
 
     //hide menu
     window.remove(menu);
     window.setVisible(false);
 
     //set game panel
-    GamePanel game = new GamePanel(window, defs.color);
+    GamePanel game = new GamePanel(window, definitions);
     window.add(game);
     window.pack();
     window.setVisible(true);

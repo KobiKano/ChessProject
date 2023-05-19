@@ -52,10 +52,11 @@ public class Updater implements MouseListener {
           }
 
           currPiece = object;
+          object.getCurrTile().isSelected = true;
           possibleMoves = currPiece.getPossibleMoves();
           //set all possible tiles to selected
           for (Tile tile : possibleMoves) {
-            tile.isSelected = true;
+            tile.isValid = true;
           }
           break;
         }
@@ -73,14 +74,11 @@ public class Updater implements MouseListener {
       yMin = currPiece.getYPos();
       if (xPos > xMin && yPos > yMin && xPos < xMax && yPos < yMax) {
         System.out.println("Piece unselected: " + currPiece.toString());
-        //check if piece is a pawn
-        if (currPiece.toString().equals("pawn")) {
-          ((Pawn)currPiece).firstMove = true;
-        }
         //deselect all tiles and piece
         for (Tile tile : possibleMoves) {
-          tile.isSelected = false;
+          tile.isValid = false;
         }
+        currPiece.getCurrTile().isSelected = false;
         possibleMoves = null;
         currPiece = null;
         return;
@@ -93,22 +91,32 @@ public class Updater implements MouseListener {
         yMin = tile.yPos;
 
         if (xPos > xMin && yPos > yMin && xPos < xMax && yPos < yMax) {
+          //deselect current tile
+          currPiece.getCurrTile().isSelected = false;
           System.out.println("Tile selected");
           //check if piece taken
           if (tile.currPiece != null) {
             pieceToRemove = tile.currPiece;
           }
 
+          //check if object is pawn
+          if (currPiece.toString().equals("pawn")) {
+            ((Pawn)currPiece).firstMove = false;
+          }
+
           //switch turn boolean
           game.blackTurn = !game.blackTurn;
 
+          //move piece
+          currPiece.getCurrTile().currPiece = null;
           currPiece.setXPos(tile.xPos);
           currPiece.setYPos(tile.yPos);
           currPiece.setCurrTile(tile);
+          currPiece.getCurrTile().currPiece = currPiece;
 
           //deselect all tiles and piece
           for (Tile tile2 : possibleMoves) {
-            tile2.isSelected = false;
+            tile2.isValid = false;
           }
           possibleMoves = null;
           currPiece = null;
