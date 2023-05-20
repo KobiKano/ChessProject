@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class King implements GameObject{
-  boolean beenMoved = false;
+  public boolean beenMoved = false;
+  public boolean inCheck = false;
+  public boolean leftCastle = false;
+  public boolean rightCastle = false;
   int xPos;
   int yPos;
   GameObject.tileColor color;
@@ -134,6 +137,57 @@ public class King implements GameObject{
       output.add(currTile.below.right);
     }
 
+    //castling logic for left castle
+    if (checkCastleLeft()) {
+      output.add(currTile.left.left);
+      leftCastle = true;
+    }
+    //castling logic for right castle
+    if (checkCastleRight()) {
+      output.add(currTile.right.right);
+      rightCastle = true;
+    }
+
     return output;
+  }
+
+  private boolean checkCastleLeft() {
+    return !beenMoved && !inCheck && currTile.left.currPiece == null && currTile.left.left.currPiece == null && currTile.left.left.left.currPiece == null && currTile.left.left.left.left.currPiece != null
+          && currTile.left.left.left.left.currPiece.toString().equals("rook") && currTile.left.left.left.left.currPiece.getColor().equals(this.color) && checkPath(true);
+}
+
+  private boolean checkCastleRight() {
+    return !beenMoved && !inCheck && currTile.right.currPiece == null && currTile.right.right.currPiece == null && currTile.right.right.right.currPiece != null
+          && currTile.right.right.right.currPiece.toString().equals("rook") && currTile.right.right.right.currPiece.getColor().equals(this.color) && checkPath(false);
+}
+
+  private boolean checkPath(boolean left) {
+    //check if left path
+    if (left && !checkIfCheck(currTile) && !checkIfCheck(currTile.left) && !checkIfCheck(currTile.left.left)) {
+      //valid path
+      return true;
+    }
+    //if right path
+    else return !checkIfCheck(currTile) && !checkIfCheck(currTile.right) && !checkIfCheck(currTile.right.right) && !checkIfCheck(currTile.right.right.right);
+}
+
+  private boolean checkIfCheck(Tile thisTile) {
+    ArrayList<Tile> tiles;
+    for (GameObject piece : game.gameObjects) {
+      //check if piece is of opposite color
+      if (!piece.getColor().equals(this.color)) {
+        tiles = piece.getPossibleMoves();
+        //check if thisTile is one of the possible moves
+        for (Tile tile : tiles) {
+          if (tile.equals(thisTile)) {
+            //king is in check return true
+            return true;
+          }
+        }
+      }
+    }
+
+    //default return
+    return false;
   }
 }

@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   //create game variables
   LinkedList<Tile> tiles = new LinkedList<>();
-  LinkedList<GameObject> gameObjects = new LinkedList<>();
+  public LinkedList<GameObject> gameObjects = new LinkedList<>();
   BoardInitializer initializer = new BoardInitializer(gameObjects, tiles, this);
   InputChecker inputChecker = new InputChecker();
   Updater updater = new Updater(gameObjects, this);

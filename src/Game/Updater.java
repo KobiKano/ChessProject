@@ -1,8 +1,6 @@
 package Game;
 
-import Game.Pieces.GameObject;
-import Game.Pieces.Pawn;
-import Game.Pieces.Tile;
+import Game.Pieces.*;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -99,9 +97,47 @@ public class Updater implements MouseListener {
             pieceToRemove = tile.currPiece;
           }
 
-          //check if object is pawn
+          //check if object is pawn king or rook
           if (currPiece.toString().equals("pawn")) {
             ((Pawn)currPiece).firstMove = false;
+          }
+          if (currPiece.toString().equals("king")) {
+            ((King)currPiece).beenMoved = true;
+          }
+          if (currPiece.toString().equals("rook")) {
+            ((Rook)currPiece).beenMoved = true;
+          }
+
+          //check if right castle
+          if (currPiece.toString().equals("king") && ((King)currPiece).rightCastle) {
+            //check if castle tile chosen
+            if(tile.equals(currPiece.getCurrTile().right.right)) {
+              //move rook
+              GameObject rook = tile.right.currPiece;
+              tile.right.currPiece = null;
+              rook.setXPos(tile.left.xPos);
+              rook.setYPos(tile.left.yPos);
+              System.out.println("Rook at: x=" + rook.getXPos() + " y=" + rook.getYPos());
+              rook.setCurrTile(tile.left);
+              rook.getCurrTile().currPiece = rook;
+              ((King)currPiece).rightCastle = false;
+            }
+          }
+
+          //check if left castle
+          if (currPiece.toString().equals("king") && ((King)currPiece).leftCastle) {
+            //check if castle tile chosen
+            if(tile.equals(currPiece.getCurrTile().left.left)) {
+              //move rook
+              GameObject rook = tile.left.left.currPiece;
+              tile.left.left.currPiece = null;
+              rook.setXPos(tile.right.xPos);
+              rook.setYPos(tile.right.yPos);
+              System.out.println("Rook at: x=" + rook.getXPos() + " y=" + rook.getYPos());
+              rook.setCurrTile(tile.right);
+              rook.getCurrTile().currPiece = rook;
+              ((King)currPiece).leftCastle = false;
+            }
           }
 
           //switch turn boolean

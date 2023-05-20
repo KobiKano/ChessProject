@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Rook implements GameObject{
-  boolean beenMoved = false;
+  public boolean beenMoved = false;
   int xPos;
   int yPos;
   GameObject.tileColor color;
