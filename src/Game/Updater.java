@@ -117,7 +117,6 @@ public class Updater implements MouseListener {
               tile.right.currPiece = null;
               rook.setXPos(tile.left.xPos);
               rook.setYPos(tile.left.yPos);
-              System.out.println("Rook at: x=" + rook.getXPos() + " y=" + rook.getYPos());
               rook.setCurrTile(tile.left);
               rook.getCurrTile().currPiece = rook;
               ((King)currPiece).rightCastle = false;
@@ -133,7 +132,6 @@ public class Updater implements MouseListener {
               tile.left.left.currPiece = null;
               rook.setXPos(tile.right.xPos);
               rook.setYPos(tile.right.yPos);
-              System.out.println("Rook at: x=" + rook.getXPos() + " y=" + rook.getYPos());
               rook.setCurrTile(tile.right);
               rook.getCurrTile().currPiece = rook;
               ((King)currPiece).leftCastle = false;

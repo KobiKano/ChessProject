@@ -153,12 +153,14 @@ public class King implements GameObject{
 
   private boolean checkCastleLeft() {
     return !beenMoved && !inCheck && currTile.left.currPiece == null && currTile.left.left.currPiece == null && currTile.left.left.left.currPiece == null && currTile.left.left.left.left.currPiece != null
-          && currTile.left.left.left.left.currPiece.toString().equals("rook") && currTile.left.left.left.left.currPiece.getColor().equals(this.color) && checkPath(true);
+          && currTile.left.left.left.left.currPiece.toString().equals("rook") && currTile.left.left.left.left.currPiece.getColor().equals(this.color)
+               && !((Rook)currTile.left.left.left.left.currPiece).beenMoved && checkPath(true);
 }
 
   private boolean checkCastleRight() {
     return !beenMoved && !inCheck && currTile.right.currPiece == null && currTile.right.right.currPiece == null && currTile.right.right.right.currPiece != null
-          && currTile.right.right.right.currPiece.toString().equals("rook") && currTile.right.right.right.currPiece.getColor().equals(this.color) && checkPath(false);
+          && currTile.right.right.right.currPiece.toString().equals("rook") && currTile.right.right.right.currPiece.getColor().equals(this.color)
+               && !((Rook)currTile.right.right.right.currPiece).beenMoved && checkPath(false);
 }
 
   private boolean checkPath(boolean left) {
