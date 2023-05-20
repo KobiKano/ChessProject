@@ -114,13 +114,13 @@ public class Knight implements GameObject{
         output.add(currTile.above.above.left);
       }
     }
-    catch (NullPointerException e){}
+    catch (NullPointerException ignored){}
     try {
       if (currTile.above.above.right.currPiece == null || !currTile.above.above.right.currPiece.getColor().equals(this.color)) {
         output.add(currTile.above.above.right);
       }
     }
-    catch (NullPointerException e) {};
+    catch (NullPointerException ignored) {}
 
     //check move to the left
     try {
@@ -128,13 +128,13 @@ public class Knight implements GameObject{
         output.add(currTile.left.left.above);
       }
     }
-    catch (NullPointerException e) {};
+    catch (NullPointerException ignored) {}
     try {
       if (currTile.left.left.below.currPiece == null || !currTile.left.left.below.currPiece.getColor().equals(this.color)) {
         output.add(currTile.left.left.below);
       }
     }
-    catch (NullPointerException e) {};
+    catch (NullPointerException ignored) {}
 
     //check move to right
     try {
@@ -142,13 +142,13 @@ public class Knight implements GameObject{
         output.add(currTile.right.right.above);
       }
     }
-    catch (NullPointerException e) {};
+    catch (NullPointerException ignored) {}
     try {
       if (currTile.right.right.below.currPiece == null || !currTile.right.right.below.currPiece.getColor().equals(this.color)) {
         output.add(currTile.right.right.below);
       }
     }
-    catch (NullPointerException e) {};
+    catch (NullPointerException ignored) {}
 
     //check move down
     try {
@@ -156,13 +156,13 @@ public class Knight implements GameObject{
         output.add(currTile.below.below.left);
       }
     }
-    catch (NullPointerException e){}
+    catch (NullPointerException ignored){}
     try {
       if (currTile.below.below.right.currPiece == null || !currTile.below.below.right.currPiece.getColor().equals(this.color)) {
         output.add(currTile.below.below.right);
       }
     }
-    catch (NullPointerException e){}
+    catch (NullPointerException ignored){}
 
     //return moves
     return output;
