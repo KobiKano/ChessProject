@@ -109,60 +109,44 @@ public class Knight implements GameObject{
     ArrayList<Tile> output = new ArrayList<>();
 
     //check move upward
-    try {
-      if (currTile.above.above.left.currPiece == null || !currTile.above.above.left.currPiece.getColor().equals(this.color)) {
-        output.add(currTile.above.above.left);
-      }
+    if (currTile.above != null && currTile.above.above != null && currTile.above.above.left != null
+            && (currTile.above.above.left.currPiece == null || !currTile.above.above.left.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.above.above.left);
     }
-    catch (NullPointerException ignored){}
-    try {
-      if (currTile.above.above.right.currPiece == null || !currTile.above.above.right.currPiece.getColor().equals(this.color)) {
-        output.add(currTile.above.above.right);
-      }
+    if (currTile.above != null && currTile.above.above != null && currTile.above.above.right != null
+            && (currTile.above.above.right.currPiece == null || !currTile.above.above.right.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.above.above.right);
     }
-    catch (NullPointerException ignored) {}
-
-    //check move to the left
-    try {
-      if (currTile.left.left.above.currPiece == null || !currTile.left.left.above.currPiece.getColor().equals(this.color)) {
-        output.add(currTile.left.left.above);
-      }
-    }
-    catch (NullPointerException ignored) {}
-    try {
-      if (currTile.left.left.below.currPiece == null || !currTile.left.left.below.currPiece.getColor().equals(this.color)) {
-        output.add(currTile.left.left.below);
-      }
-    }
-    catch (NullPointerException ignored) {}
-
-    //check move to right
-    try {
-      if (currTile.right.right.above.currPiece == null || !currTile.right.right.above.currPiece.getColor().equals(this.color)) {
-        output.add(currTile.right.right.above);
-      }
-    }
-    catch (NullPointerException ignored) {}
-    try {
-      if (currTile.right.right.below.currPiece == null || !currTile.right.right.below.currPiece.getColor().equals(this.color)) {
-        output.add(currTile.right.right.below);
-      }
-    }
-    catch (NullPointerException ignored) {}
 
     //check move down
-    try {
-      if (currTile.below.below.left.currPiece == null || !currTile.below.below.left.currPiece.getColor().equals(this.color)) {
-        output.add(currTile.below.below.left);
-      }
+    if (currTile.below != null && currTile.below.below != null && currTile.below.below.left != null
+            && (currTile.below.below.left.currPiece == null || !currTile.below.below.left.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.below.below.left);
     }
-    catch (NullPointerException ignored){}
-    try {
-      if (currTile.below.below.right.currPiece == null || !currTile.below.below.right.currPiece.getColor().equals(this.color)) {
-        output.add(currTile.below.below.right);
-      }
+    if (currTile.below != null && currTile.below.below != null && currTile.below.below.right != null
+            && (currTile.below.below.right.currPiece == null || !currTile.below.below.right.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.below.below.right);
     }
-    catch (NullPointerException ignored){}
+
+    //check move left
+    if (currTile.left != null && currTile.left.left != null && currTile.left.left.above != null
+            && (currTile.left.left.above.currPiece == null || !currTile.left.left.above.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.left.left.above);
+    }
+    if (currTile.left != null && currTile.left.left != null && currTile.left.left.below != null
+            && (currTile.left.left.below.currPiece == null || !currTile.left.left.below.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.left.left.below);
+    }
+
+    //check move right
+    if (currTile.right != null && currTile.right.right != null && currTile.right.right.above != null
+            && (currTile.right.right.above.currPiece == null || !currTile.right.right.above.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.right.right.above);
+    }
+    if (currTile.right != null && currTile.right.right != null && currTile.right.right.below != null
+            && (currTile.right.right.below.currPiece == null || !currTile.right.right.below.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.right.right.below);
+    }
 
     //return moves
     return output;
