@@ -108,6 +108,55 @@ public class Rook implements GameObject{
   public ArrayList<Tile> getPossibleMoves() {
     ArrayList<Tile> output = new ArrayList<>();
 
+    //check moves downward
+    Tile checkTile = currTile.below;
+    while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+      output.add(checkTile);
+      //check if check tile has a piece of opposite color
+      if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+        //break loop
+        break;
+      }
+      //go to next tile
+      checkTile = checkTile.below;
+    }
+
+    //check moves upward
+    checkTile = currTile.above;
+    while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+      output.add(checkTile);
+      //check if check tile has a piece of opposite color
+      if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+        //break loop
+        break;
+      }
+      checkTile = checkTile.above;
+    }
+
+    //check moves to left
+    checkTile = currTile.left;
+    while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+      output.add(checkTile);
+      //check if check tile has a piece of opposite color
+      if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+        //break loop
+        break;
+      }
+      checkTile = checkTile.left;
+    }
+
+    //check moves to right
+    checkTile = currTile.right;
+    while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+      output.add(checkTile);
+      //check if check tile has a piece of opposite color
+      if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+        //break loop
+        break;
+      }
+      checkTile = checkTile.right;
+    }
+
     return output;
   }
 }
