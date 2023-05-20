@@ -157,6 +157,9 @@ public class Rook implements GameObject{
       checkTile = checkTile.right;
     }
 
+    //add implementation for castle
+
+
     return output;
   }
 }

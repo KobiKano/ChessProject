@@ -108,6 +108,32 @@ public class King implements GameObject{
   public ArrayList<Tile> getPossibleMoves() {
     ArrayList<Tile> output = new ArrayList<>();
 
+    //add moves and check if tile is null
+    if (currTile.left != null && (currTile.left.currPiece == null || !currTile.left.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.left);
+    }
+    if (currTile.above != null && (currTile.above.currPiece == null || !currTile.above.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.above);
+    }
+    if (currTile.below != null && (currTile.below.currPiece == null || !currTile.below.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.below);
+    }
+    if (currTile.right != null && (currTile.right.currPiece == null || !currTile.right.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.right);
+    }
+    if (currTile.above != null && currTile.above.left != null && (currTile.above.left.currPiece == null || !currTile.above.left.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.above.left);
+    }
+    if (currTile.above != null && currTile.above.right != null && (currTile.above.right.currPiece == null || !currTile.above.right.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.above.right);
+    }
+    if (currTile.below != null && currTile.below.left != null && (currTile.below.left.currPiece == null || !currTile.below.left.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.below.left);
+    }
+    if (currTile.below != null && currTile.below.right != null && (currTile.below.right.currPiece == null || !currTile.below.right.currPiece.getColor().equals(this.color))) {
+      output.add(currTile.below.right);
+    }
+
     return output;
   }
 }
