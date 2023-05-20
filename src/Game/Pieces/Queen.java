@@ -107,6 +107,141 @@ public class Queen implements GameObject{
   @Override
   public ArrayList<Tile> getPossibleMoves() {
     ArrayList<Tile> output = new ArrayList<>();
+    Tile checkTile;
+
+    //check moves downward
+    checkTile = currTile.below;
+    while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+      output.add(checkTile);
+      //check if check tile has a piece of opposite color
+      if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+        //break loop
+        break;
+      }
+      //go to next tile
+      checkTile = checkTile.below;
+    }
+
+    //check moves upward
+    checkTile = currTile.above;
+    while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+      output.add(checkTile);
+      //check if check tile has a piece of opposite color
+      if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+        //break loop
+        break;
+      }
+      checkTile = checkTile.above;
+    }
+
+    //check moves to left
+    checkTile = currTile.left;
+    while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+      output.add(checkTile);
+      //check if check tile has a piece of opposite color
+      if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+        //break loop
+        break;
+      }
+      checkTile = checkTile.left;
+    }
+
+    //check moves to right
+    checkTile = currTile.right;
+    while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+      output.add(checkTile);
+      //check if check tile has a piece of opposite color
+      if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+        //break loop
+        break;
+      }
+      checkTile = checkTile.right;
+    }
+
+    //check moves downward to left
+    //make sure currTile.below is not null
+    if (currTile.below != null) {
+      checkTile = currTile.below.left;
+      while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+        output.add(checkTile);
+        //check if check tile has a piece of opposite color
+        if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+          //break loop
+          break;
+        }
+        //check if checkTile.below is null
+        if (checkTile.below == null) {
+          //break loop
+          break;
+        }
+        //go to next tile
+        checkTile = checkTile.below.left;
+      }
+    }
+
+
+    //check moves downward to right
+    //make sure currTile.below is not null
+    if (currTile.below != null) {
+      checkTile = currTile.below.right;
+      while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+        output.add(checkTile);
+        //check if check tile has a piece of opposite color
+        if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+          //break loop
+          break;
+        }
+        //check if checkTile.below is null
+        if (checkTile.below == null) {
+          //break loop
+          break;
+        }
+        //go to next tile
+        checkTile = checkTile.below.right;
+      }
+    }
+
+    //check moves upward to left
+    //make sure currTile.above is not null
+    if (currTile.above != null) {
+      checkTile = currTile.above.left;
+      while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+        output.add(checkTile);
+        //check if check tile has a piece of opposite color
+        if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+          //break loop
+          break;
+        }
+        //check if checkTile.below is null
+        if (checkTile.above == null) {
+          //break loop
+          break;
+        }
+        //go to next tile
+        checkTile = checkTile.above.left;
+      }
+    }
+
+    //check moves upward to right
+    //make sure currTile.above is not null
+    if (currTile.above != null) {
+      checkTile = currTile.above.right;
+      while(checkTile != null && (checkTile.currPiece == null || !checkTile.currPiece.getColor().equals(this.color))) {
+        output.add(checkTile);
+        //check if check tile has a piece of opposite color
+        if (checkTile.currPiece != null && !checkTile.currPiece.getColor().equals(this.color)) {
+          //break loop
+          break;
+        }
+        //check if checkTile.below is null
+        if (checkTile.above == null) {
+          //break loop
+          break;
+        }
+        //go to next tile
+        checkTile = checkTile.above.right;
+      }
+    }
 
     return output;
   }

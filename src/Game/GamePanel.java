@@ -104,7 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
       gameOver = true;
     }
     //else subtract points
-    else if (piece.getColor() == GameObject.tileColor.BLACK) {
+    if (piece.getColor() == GameObject.tileColor.BLACK) {
       blackScore -= piece.getCost();
     }
     else {

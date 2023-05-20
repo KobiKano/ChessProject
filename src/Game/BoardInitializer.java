@@ -110,6 +110,6 @@ public class BoardInitializer {
     //draw queen
     gameObjects.add(new Queen(actualSize/2 + 3 * actualSize, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(7 + 3*8)));
     //draw king
-    gameObjects.add(new King(actualSize/2 + 4 * actualSize, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 2*8)));
+    gameObjects.add(new King(actualSize/2 + 4 * actualSize, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 3*8)));
   }
 }

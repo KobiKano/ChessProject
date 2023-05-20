@@ -49,7 +49,7 @@ public class King implements GameObject{
 
   @Override
   public int getCost() {
-    return 100;
+    return 1000;
   }
 
   @Override
