@@ -7,11 +7,11 @@ public class ChessGame {
   protected enum PlayerColor{
     BLACK, WHITE
   }
-  protected static class MutableDefinitions {
+  protected static class Definitions {
     protected boolean value;
     protected PlayerColor color;
     protected Integer difficulty;
-    protected MutableDefinitions(boolean value, PlayerColor color, Integer difficulty) {
+    protected Definitions(boolean value, PlayerColor color, Integer difficulty) {
       this.value = value;
       this.color = color;
       this.difficulty = difficulty;
@@ -38,7 +38,7 @@ public class ChessGame {
     window.setLocationRelativeTo(null);
 
     //start menu screen
-    MutableDefinitions definitions = new MutableDefinitions(false, PlayerColor.WHITE, 1); //default color white
+    Definitions definitions = new Definitions(false, PlayerColor.WHITE, 1); //default color white
     MenuPanel menu = new MenuPanel(window, definitions);
     window.add(menu);
     window.pack();

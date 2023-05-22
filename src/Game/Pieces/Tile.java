@@ -14,6 +14,7 @@ public class Tile{
   public int yPos;
   public boolean isValid = false;
   public boolean isSelected = false;
+  public boolean endTile;
   public tileColor color;
   GamePanel game;
 
@@ -24,11 +25,12 @@ public class Tile{
   public GameObject currPiece = null;
 
   //constructor for class
-  public Tile(int xPos, int yPos, tileColor color, GamePanel game) {
+  public Tile(int xPos, int yPos, tileColor color, GamePanel game, boolean endTile) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
     this.game = game;
+    this.endTile = endTile;
   }
 
   public void draw(Graphics2D graphics) {

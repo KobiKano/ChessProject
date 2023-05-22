@@ -30,11 +30,20 @@ public class BoardInitializer {
     for (int x = actualSize/2; x < width - actualSize; x += actualSize) {
       isBlack = !isBlack;
       for (int y = 0; y < height - actualSize; y += actualSize) {
-        if (isBlack) {
-          tiles.add(new Tile(x,y, Tile.tileColor.BLACK, game));
+        //check if on edge
+        if (y == 0 || y == 7 * actualSize) {
+          if (isBlack) {
+            tiles.add(new Tile(x, y, Tile.tileColor.BLACK, game, true));
+          } else {
+            tiles.add(new Tile(x, y, Tile.tileColor.WHITE, game, true));
+          }
         }
         else {
-          tiles.add(new Tile(x,y, Tile.tileColor.WHITE, game));
+          if (isBlack) {
+            tiles.add(new Tile(x, y, Tile.tileColor.BLACK, game, false));
+          } else {
+            tiles.add(new Tile(x, y, Tile.tileColor.WHITE, game, false));
+          }
         }
         isBlack = !isBlack;
       }

@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.TreeMap;
+
 
 public class Updater implements MouseListener {
   public boolean leftPressed = false;
@@ -14,6 +16,7 @@ public class Updater implements MouseListener {
   LinkedList<GameObject> gameObjects;
   GamePanel game;
   GameObject currPiece = null;
+  GameObject changePiece = null;
   ArrayList<Tile> possibleMoves = null;
   GameObject pieceToRemove = null;
 
@@ -100,6 +103,12 @@ public class Updater implements MouseListener {
           //check if object is pawn king or rook
           if (currPiece.toString().equals("pawn")) {
             ((Pawn)currPiece).firstMove = false;
+            //check if pawn on end tile
+            if (tile.endTile) {
+              changePiece = currPiece;
+              Thread changeThread = new Thread(this::changePiece);
+              changeThread.start();
+            }
           }
           if (currPiece.toString().equals("king")) {
             ((King)currPiece).beenMoved = true;
@@ -187,4 +196,22 @@ public class Updater implements MouseListener {
   @Override
   public void mouseExited(MouseEvent e) {
   }
+
+  private void changePiece() {
+    System.out.println("Changing Piece");
+    //allow piece change
+    PieceChanger pieceChanger = new PieceChanger(game, changePiece);
+    game.window.setVisible(false);
+    game.window.remove(game);
+    game.window.add(pieceChanger);
+    game.window.pack();
+    game.window.setVisible(true);
+    while(!pieceChanger.pieceChosen) {System.out.print("");}  //wait for piece to be chosen
+    game.window.setVisible(false);
+    game.window.remove(pieceChanger);
+    game.window.add(game);
+    game.window.pack();
+    game.window.setVisible(true);
+  }
+
 }

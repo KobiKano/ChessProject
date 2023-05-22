@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class MenuPanel extends JPanel {
   JFrame window;
-  public ChessGame.MutableDefinitions definitions;
+  public ChessGame.Definitions definitions;
   final int WIDTH = 300;
   final int HEIGHT = 500;
   public static final int BUTTON_WIDTH = 100;
@@ -20,7 +20,7 @@ public class MenuPanel extends JPanel {
 
 
   //constructor for class
-  public MenuPanel(JFrame window, ChessGame.MutableDefinitions definitions) {
+  public MenuPanel(JFrame window, ChessGame.Definitions definitions) {
     this.window = window;
     this.definitions = definitions;
 

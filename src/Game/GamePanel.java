@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
   int difficulty;
 
   //constructor for class
-  public GamePanel(JFrame window, ChessGame.MutableDefinitions definitions) {
+  public GamePanel(JFrame window, ChessGame.Definitions definitions) {
     this.window = window;
     this.playerColor = definitions.color;
     this.difficulty = definitions.difficulty;
