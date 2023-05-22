@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
 
 public class King implements GameObject{
@@ -108,8 +109,8 @@ public class King implements GameObject{
   }
 
   @Override
-  public ArrayList<Tile> getPossibleMoves() {
-    ArrayList<Tile> output = new ArrayList<>();
+  public LinkedList<Tile> getPossibleMoves() {
+    LinkedList<Tile> output = new LinkedList<>();
 
     //add moves and check if tile is null
     if (currTile.left != null && (currTile.left.currPiece == null || !currTile.left.currPiece.getColor().equals(this.color)) && !checkIfCheck(currTile.left)) {
@@ -174,16 +175,29 @@ public class King implements GameObject{
 }
 
   private boolean checkIfCheck(Tile thisTile) {
-    ArrayList<Tile> tiles;
+    LinkedList<Tile> tiles;
     for (GameObject piece : game.gameObjects) {
       //check if piece is of opposite color
-      if (!piece.getColor().equals(this.color)) {
-        tiles = piece.getPossibleMoves();
-        //check if thisTile is one of the possible moves
-        for (Tile tile : tiles) {
-          if (tile.equals(thisTile)) {
-            //king is in check return true
-            return true;
+      if (!piece.getColor().equals(this.color) && !piece.toString().equals("king")) {
+        if (!piece.toString().equals("pawn")) {
+          tiles = piece.getPossibleMoves();
+          //check if thisTile is one of the possible moves
+          for (Tile tile : tiles) {
+            if (tile.equals(thisTile)) {
+              //king is in check return true
+              return true;
+            }
+          }
+        }
+        //special logic for pawn
+        else {
+          tiles = piece.getPossibleMoves();
+          //make sure tile check is not for tiles above or below pawn
+          for (Tile tile : tiles) {
+            if (tile.equals(thisTile) && (!thisTile.equals(piece.getCurrTile().above) || !thisTile.equals(piece.getCurrTile().below))) {
+              //king is in check return true
+              return true;
+            }
           }
         }
       }

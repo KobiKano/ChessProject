@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
 
 public class Knight implements GameObject{
@@ -105,8 +106,8 @@ public class Knight implements GameObject{
   }
 
   @Override
-  public ArrayList<Tile> getPossibleMoves() {
-    ArrayList<Tile> output = new ArrayList<>();
+  public LinkedList<Tile> getPossibleMoves() {
+    LinkedList<Tile> output = new LinkedList<>();
 
     //check move upward
     if (currTile.above != null && currTile.above.above != null && currTile.above.above.left != null

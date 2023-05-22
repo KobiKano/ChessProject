@@ -17,7 +17,7 @@ public class Updater implements MouseListener {
   GamePanel game;
   GameObject currPiece = null;
   GameObject changePiece = null;
-  ArrayList<Tile> possibleMoves = null;
+  LinkedList<Tile> possibleMoves = null;
   GameObject pieceToRemove = null;
 
   //constructor for class

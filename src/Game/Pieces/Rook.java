@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
 
 public class Rook implements GameObject{
@@ -105,8 +106,8 @@ public class Rook implements GameObject{
   }
 
   @Override
-  public ArrayList<Tile> getPossibleMoves() {
-    ArrayList<Tile> output = new ArrayList<>();
+  public LinkedList<Tile> getPossibleMoves() {
+    LinkedList<Tile> output = new LinkedList<>();
 
     //check moves downward
     Tile checkTile = currTile.below;

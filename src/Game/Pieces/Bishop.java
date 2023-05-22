@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
 
 import Game.GamePanel;
@@ -106,8 +107,8 @@ public class Bishop implements GameObject{
   }
 
   @Override
-  public ArrayList<Tile> getPossibleMoves() {
-    ArrayList<Tile> output = new ArrayList<>();
+  public LinkedList<Tile> getPossibleMoves() {
+    LinkedList<Tile> output = new LinkedList<>();
     Tile checkTile;
 
     //check moves downward to left
