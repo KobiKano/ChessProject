@@ -173,13 +173,13 @@ public class King implements GameObject{
     else return !checkIfCheck(currTile) && !checkIfCheck(currTile.right) && !checkIfCheck(currTile.right.right) && !checkIfCheck(currTile.right.right.right);
 }
 
-  private boolean checkIfCheck(Tile thisTile) {
+  public boolean checkIfCheck(Tile thisTile) {
     LinkedList<Tile> tiles;
-    for (GameObject piece : game.gameObjects) {
+    for (int i = 0; i < game.gameObjects.size(); i++) {
       //check if piece is of opposite color
-      if (!piece.getColor().equals(this.color) && !piece.toString().equals("king")) {
-        if (!piece.toString().equals("pawn")) {
-          tiles = piece.getPossibleMoves();
+      if (!game.gameObjects.get(i).getColor().equals(this.color) && !game.gameObjects.get(i).toString().equals("king")) {
+        if (!game.gameObjects.get(i).toString().equals("pawn")) {
+          tiles = game.gameObjects.get(i).getPossibleMoves();
           //check if thisTile is one of the possible moves
           for (Tile tile : tiles) {
             if (tile.equals(thisTile)) {
@@ -190,7 +190,7 @@ public class King implements GameObject{
         }
         //special logic for pawn
         else {
-          tiles = ((Pawn)piece).getCheckMoves();
+          tiles = ((Pawn)game.gameObjects.get(i)).getCheckMoves();
           //make sure tile check is not for tiles above or below pawn
           for (Tile tile : tiles) {
             if (tile.equals(thisTile)) {

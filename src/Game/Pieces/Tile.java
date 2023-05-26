@@ -14,6 +14,7 @@ public class Tile{
   public int yPos;
   public boolean isValid = false;
   public boolean isSelected = false;
+  public boolean inCheck = false;
   public boolean endTile;
   public tileColor color;
   GamePanel game;
@@ -35,6 +36,14 @@ public class Tile{
 
   public void draw(Graphics2D graphics) {
     //check if tile is selected
+    if (inCheck) {
+      graphics.setColor(Color.red);
+      //draw image
+      graphics.fill3DRect(xPos, yPos, game.ACTUAL_SIZE, game.ACTUAL_SIZE, true);
+      graphics.setColor(Color.BLACK);
+      graphics.draw3DRect(xPos, yPos, game.ACTUAL_SIZE, game.ACTUAL_SIZE, true);
+      return;
+    }
     if (isSelected) {
       graphics.setColor(Color.green);
       //draw image

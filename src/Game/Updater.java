@@ -4,9 +4,7 @@ import Game.Pieces.*;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.TreeMap;
 
 
 public class Updater implements MouseListener {
@@ -19,11 +17,14 @@ public class Updater implements MouseListener {
   GameObject changePiece = null;
   LinkedList<Tile> possibleMoves = null;
   GameObject pieceToRemove = null;
+  King king = null;
+  Tile checkTile;
 
   //constructor for class
   public Updater(LinkedList<GameObject> gameObjects, GamePanel game) {
     this.gameObjects = gameObjects;
     this.game = game;
+    checkTile = new Tile(0,0, Tile.tileColor.BLACK, game, false);
   }
 
   @Override
@@ -95,6 +96,7 @@ public class Updater implements MouseListener {
           //deselect current tile
           currPiece.getCurrTile().isSelected = false;
           System.out.println("Tile selected");
+
           //check if piece taken
           if (tile.currPiece != null) {
             pieceToRemove = tile.currPiece;
@@ -106,7 +108,7 @@ public class Updater implements MouseListener {
             //check if pawn on end tile
             if (tile.endTile) {
               changePiece = currPiece;
-              Thread changeThread = new Thread(this::changePiece);
+              Thread changeThread = new Thread(this::promotePiece);
               changeThread.start();
             }
           }
@@ -161,6 +163,28 @@ public class Updater implements MouseListener {
           for (Tile tile2 : possibleMoves) {
             tile2.isValid = false;
           }
+
+          //check if other king is now in check
+          king = null;
+          for (GameObject piece : gameObjects) {
+            if (piece.toString().equals("king") && !piece.getColor().equals(currPiece.getColor())) {
+              king = ((King)piece);
+              break;
+            }
+          }
+          //check if in check
+          if (king != null && king.checkIfCheck(king.getCurrTile())) {
+            System.out.println(king.getColor().toString() + " King is in check!");
+            king.inCheck = true;
+            king.getCurrTile().inCheck = true;
+            checkTile = king.getCurrTile();
+          }
+          else if (king != null) {
+            king.inCheck = false;
+            checkTile.inCheck = false;
+          }
+
+          //reset all globals for next move
           possibleMoves = null;
           currPiece = null;
           return;
@@ -197,7 +221,7 @@ public class Updater implements MouseListener {
   public void mouseExited(MouseEvent e) {
   }
 
-  private void changePiece() {
+  private void promotePiece() {
     System.out.println("Changing Piece");
     //allow piece change
     PieceChanger pieceChanger = new PieceChanger(game, changePiece);
