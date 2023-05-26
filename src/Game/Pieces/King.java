@@ -6,7 +6,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -191,10 +190,10 @@ public class King implements GameObject{
         }
         //special logic for pawn
         else {
-          tiles = piece.getPossibleMoves();
+          tiles = ((Pawn)piece).getCheckMoves();
           //make sure tile check is not for tiles above or below pawn
           for (Tile tile : tiles) {
-            if (tile.equals(thisTile) && (!thisTile.equals(piece.getCurrTile().above) || !thisTile.equals(piece.getCurrTile().below))) {
+            if (tile.equals(thisTile)) {
               //king is in check return true
               return true;
             }

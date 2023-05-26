@@ -155,4 +155,33 @@ public class Pawn implements GameObject{
     //return possible moves
     return output;
   }
+
+  protected LinkedList<Tile> getCheckMoves() {
+    LinkedList<Tile> output = new LinkedList<>();
+
+    //check if piece is black
+    if (this.color == tileColor.BLACK) {
+      //add bottom two corner moves
+      if (currTile.below != null && currTile.below.left != null) {
+        output.add(currTile.below.left);
+      }
+      if (currTile.below != null && currTile.below.right != null) {
+        output.add(currTile.below.right);
+      }
+    }
+
+    //else piece is white
+    else {
+      //add top two corner moves
+      if (currTile.above != null && currTile.above.left != null) {
+        output.add(currTile.above.left);
+      }
+      if (currTile.above != null && currTile.above.right != null) {
+        output.add(currTile.above.right);
+      }
+    }
+
+    //default return
+    return output;
+  }
 }
