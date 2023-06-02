@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class King implements GameObject{
   public boolean beenMoved = false;
@@ -174,22 +175,44 @@ public class King implements GameObject{
 }
 
   public boolean checkIfCheck(Tile thisTile) {
+    //System.out.println("checkIfCheck");
     LinkedList<Tile> tiles;
+    LinkedList<Thread> threads = new LinkedList<>();
+    AtomicBoolean check = new AtomicBoolean(false);
+
     for (int i = 0; i < game.gameObjects.size(); i++) {
+      //check if the king is in check
+      if(check.get()) {
+        //stop all threads and return
+        for (int j = 0; j < threads.size(); j++) {
+          //System.out.println("Stopping threads");
+          threads.get(i).stop();
+        }
+
+        return true;
+      }
+
       //check if piece is of opposite color
       if (!game.gameObjects.get(i).getColor().equals(this.color) && !game.gameObjects.get(i).toString().equals("king")) {
         if (!game.gameObjects.get(i).toString().equals("pawn")) {
           tiles = game.gameObjects.get(i).getPossibleMoves();
-          //check if thisTile is one of the possible moves
-          for (Tile tile : tiles) {
-            if (tile.equals(thisTile)) {
-              //king is in check return true
-              return true;
-            }
-          }
+          LinkedList<Tile> finalTiles = tiles;
+          Thread thread = new Thread(()->{
+            //System.out.println("Starting new thread");
+            //check if thisTile is one of the possible moves
+            for (Tile tile : finalTiles) {
+              if (tile.equals(thisTile)) {
+                //king is in check return true
+                check.set(true);
+              }
+            }});
+          thread.start();
+          threads.add(thread);
         }
         //special logic for pawn
         else {
+
+
           tiles = ((Pawn)game.gameObjects.get(i)).getCheckMoves();
           //make sure tile check is not for tiles above or below pawn
           for (Tile tile : tiles) {
@@ -198,11 +221,26 @@ public class King implements GameObject{
               return true;
             }
           }
+
+
         }
       }
     }
 
-    //default return
+    //wait for all threads to finish
+    for (int i = 0; i < threads.size(); i++) {
+      //System.out.println("joining threads");
+      try {
+        threads.get(i).join();}
+      catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+
+    //return
+    if (check.get()) {
+      return true;
+    }
     return false;
   }
 }

@@ -79,6 +79,10 @@ public class BoardInitializer {
     }
 
     //draw black pieces
+    //draw king
+    King blackKing = new King(actualSize/2 + 4 * actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(32));
+    gameObjects.add(blackKing);
+    game.blackKing = blackKing;
     //draw pawns
     int pawnTileIndex = 1;
     for (int i = actualSize/2; i < width - actualSize; i += actualSize) {
@@ -96,11 +100,13 @@ public class BoardInitializer {
     gameObjects.add(new Bishop(width - 4 * actualSize + actualSize/2, 0 , GameObject.tileColor.BLACK, game, tiles.get(40)));
     //draw queen
     gameObjects.add(new Queen(actualSize/2 + 3 * actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(24)));
-    //draw king
-    gameObjects.add(new King(actualSize/2 + 4 * actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(32)));
 
 
     //draw white pieces
+    //draw king
+    King whiteKing = new King(actualSize/2 + 4 * actualSize, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 3*8));
+    gameObjects.add(whiteKing);
+    game.whiteKing = whiteKing;
     //draw pawns
     pawnTileIndex = 6;
     for (int i = actualSize/2; i < width - actualSize; i += actualSize) {
@@ -118,7 +124,5 @@ public class BoardInitializer {
     gameObjects.add(new Bishop(width - 4 * actualSize + actualSize/2, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 2*8)));
     //draw queen
     gameObjects.add(new Queen(actualSize/2 + 3 * actualSize, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(7 + 3*8)));
-    //draw king
-    gameObjects.add(new King(actualSize/2 + 4 * actualSize, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 3*8)));
   }
 }

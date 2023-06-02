@@ -6,7 +6,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -18,6 +17,13 @@ public class Knight implements GameObject{
   BufferedImage sprite;
   GamePanel game;
   Tile currTile;
+  King king = null;
+  GameObject oldPiece;
+
+  public Knight(GameObject.tileColor color, Tile currTile) {
+    this.color = color;
+    this.currTile = currTile;
+  }
 
   public Knight(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
     this.xPos = xPos;
@@ -26,6 +32,19 @@ public class Knight implements GameObject{
     this.game = game;
     this.currTile = currTile;
     currTile.currPiece = this;
+
+    //find king
+    for (GameObject piece : game.gameObjects) {
+      if (piece.toString().equals("king") && piece.getColor().equals(this.color)) {
+        king = (King)piece;
+        break;
+      }
+    }
+    //make sure king found
+    if (king == null) {
+      System.out.println("Error Finding King! Exiting");
+      System.exit(1);
+    }
 
     //assign sprite image
     try {

@@ -19,12 +19,17 @@ public class Updater implements MouseListener {
   GameObject pieceToRemove = null;
   King king = null;
   Tile checkTile;
+  GameObject oldPiece;
+
+  Tile oldTile;
+  int oldXPos;
+  int oldYPos;
 
   //constructor for class
   public Updater(LinkedList<GameObject> gameObjects, GamePanel game) {
     this.gameObjects = gameObjects;
     this.game = game;
-    checkTile = new Tile(0,0, Tile.tileColor.BLACK, game, false);
+    checkTile = new Tile(0,0, Tile.tileColor.BLACK, game, false);  //used to avoid null pointer
   }
 
   @Override
@@ -101,6 +106,7 @@ public class Updater implements MouseListener {
           if (tile.currPiece != null) {
             pieceToRemove = tile.currPiece;
           }
+          oldPiece = tile.currPiece;
 
           //check if object is pawn king or rook
           if (currPiece.toString().equals("pawn")) {
@@ -154,14 +160,34 @@ public class Updater implements MouseListener {
 
           //move piece
           currPiece.getCurrTile().currPiece = null;
+          oldXPos = currPiece.getXPos();
           currPiece.setXPos(tile.xPos);
+          oldYPos = currPiece.getYPos();
           currPiece.setYPos(tile.yPos);
+          oldTile = currPiece.getCurrTile();
           currPiece.setCurrTile(tile);
           currPiece.getCurrTile().currPiece = currPiece;
+
 
           //deselect all tiles and piece
           for (Tile tile2 : possibleMoves) {
             tile2.isValid = false;
+          }
+
+          //check if same color king in check
+          for (int i = 0; i < gameObjects.size(); i++) {
+            if (gameObjects.get(i).toString().equals("king") && gameObjects.get(i).getColor().equals(currPiece.getColor()) && ((King)gameObjects.get(i)).checkIfCheck(gameObjects.get(i).getCurrTile())) {
+              //send warning
+              System.out.println("Invalid Move! Put own king in check!");
+              //move piece back
+              game.blackTurn = !game.blackTurn;
+              pieceToRemove = null;
+              currPiece.setXPos(oldXPos);
+              currPiece.setYPos(oldYPos);
+              currPiece.getCurrTile().currPiece = oldPiece;
+              currPiece.setCurrTile(oldTile);
+              oldTile.currPiece = currPiece;
+            }
           }
 
           //check if other king is now in check
@@ -172,7 +198,7 @@ public class Updater implements MouseListener {
               break;
             }
           }
-          //check if in check
+          //send warning to user that king is in check
           if (king != null && king.checkIfCheck(king.getCurrTile())) {
             System.out.println(king.getColor().toString() + " King is in check!");
             king.inCheck = true;
@@ -237,5 +263,4 @@ public class Updater implements MouseListener {
     game.window.pack();
     game.window.setVisible(true);
   }
-
 }

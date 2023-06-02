@@ -36,6 +36,9 @@ public class GamePanel extends JPanel implements Runnable {
   ChessGame.PlayerColor playerColor;
   int difficulty;
 
+  public King whiteKing = null;
+  public King blackKing = null;
+
   //constructor for class
   public GamePanel(JFrame window, ChessGame.Definitions definitions) {
     this.window = window;
@@ -48,10 +51,22 @@ public class GamePanel extends JPanel implements Runnable {
     this.setDoubleBuffered(true);
     this.addKeyListener(inputChecker);
     this.addMouseListener(updater);
-
     this.setFocusable(true);
-    //start game
+
+    //initialize board and pieces
     initializer.generateBoard();
+
+    //make sure king was found
+    if (whiteKing == null) {
+      System.out.println("Error finding White King! Exiting!");
+      System.exit(1);
+    }
+    if (blackKing == null) {
+      System.out.println("Error finding Black King! Exiting!");
+      System.exit(1);
+    }
+
+    //start game
     startGameThread();
   }
 
@@ -77,6 +92,8 @@ public class GamePanel extends JPanel implements Runnable {
       if (currTime >= nextTime) {
         //update positions
         removePieces();
+        //check if game over
+        new Thread(this::checkIfCheckMate);
         //draw objects
         repaint();
         //reset timers
@@ -98,11 +115,6 @@ public class GamePanel extends JPanel implements Runnable {
     if (piece == null) {
       return;
     }
-
-    //check if piece is king
-    if (piece.toString().equals("king")) {
-      gameOver = true;
-    }
     //else subtract points
     if (piece.getColor() == GameObject.tileColor.BLACK) {
       blackScore -= piece.getCost();
@@ -118,9 +130,87 @@ public class GamePanel extends JPanel implements Runnable {
     printScore();
   }
 
+  private void checkIfCheckMate() {
+    boolean inCheckMate = true;
+
+    //check if white king in check
+    if(whiteKing.inCheck) {
+      //check if any moves are possible
+      for (int i = 0; i < gameObjects.size(); i++) {
+        if (!gameObjects.get(i).toString().equals("king") && gameObjects.get(i).getColor().equals(GameObject.tileColor.WHITE)) {
+          //check if any piece has the ability to be moved without the king still being in check
+          if (testMoves(gameObjects.get(i), whiteKing)) {
+            //there is a possible move
+            inCheckMate = false;
+            break;
+          }
+        }
+      }
+      //check if king in checkmate
+      if (inCheckMate) {
+        gameOver = true;
+        System.out.println("Black wins!");
+      }
+    }
+    //check if black king in check
+    if(blackKing.inCheck) {
+      printGameObjects();
+      //check if any moves are possible
+      for (int i = 0; i < gameObjects.size(); i++) {
+        if (!gameObjects.get(i).toString().equals("king") && gameObjects.get(i).getColor().equals(GameObject.tileColor.BLACK)) {
+          //System.out.println("Testing moves for: " + gameObjects.get(i).getColor().toString() + " " + gameObjects.get(i).toString() + " " + gameObjects.get(i).hashCode());
+          //check if any piece has the ability to be moved without the king still being in check
+          if (testMoves(gameObjects.get(i), blackKing)) {
+            //there is a possible move
+            inCheckMate = false;
+            break;
+          }
+        }
+      }
+      //check if king in checkmate
+      if (inCheckMate) {
+        gameOver = true;
+        System.out.println("White wins!");
+      }
+    }
+  }
+
+  private boolean testMoves(GameObject piece, King king) {
+    GameObject oldPiece;
+    Tile oldTile;
+    for(Tile tile : piece.getPossibleMoves()) {
+      //System.out.println("Testing moves for: " + piece.getColor().toString() + " " + piece.toString());
+      //put piece in tile
+      oldPiece = tile.currPiece;
+      oldTile = piece.getCurrTile();
+      piece.getCurrTile().currPiece = null;
+      tile.currPiece = piece;
+
+      //check if king not in check
+      if (!king.checkIfCheck(king.getCurrTile())) {
+        //fix piece changes
+        tile.currPiece = oldPiece;
+        oldTile.currPiece = piece;
+        return true;
+      }
+      //fix piece changes
+      tile.currPiece = oldPiece;
+      oldTile.currPiece = piece;
+    }
+
+    //default return
+    return false;
+  }
+
   private void printScore() {
     System.out.println("White Score: " + whiteScore +
                           "\nBlack Score: " + blackScore);
+  }
+
+  private void printGameObjects() {
+    for (int i = 0; i < gameObjects.size(); i++) {
+      System.out.println(gameObjects.get(i).toString());
+    }
   }
 
   public void paintComponent(Graphics graphics) {
