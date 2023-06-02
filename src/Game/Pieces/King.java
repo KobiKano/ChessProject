@@ -197,8 +197,8 @@ public class King implements GameObject{
         if (!game.gameObjects.get(i).toString().equals("pawn")) {
           tiles = game.gameObjects.get(i).getPossibleMoves();
           LinkedList<Tile> finalTiles = tiles;
+          //start new thread
           Thread thread = new Thread(()->{
-            //System.out.println("Starting new thread");
             //check if thisTile is one of the possible moves
             for (Tile tile : finalTiles) {
               if (tile.equals(thisTile)) {
@@ -209,20 +209,23 @@ public class King implements GameObject{
           thread.start();
           threads.add(thread);
         }
+
         //special logic for pawn
         else {
-
-
-          tiles = ((Pawn)game.gameObjects.get(i)).getCheckMoves();
           //make sure tile check is not for tiles above or below pawn
-          for (Tile tile : tiles) {
-            if (tile.equals(thisTile)) {
-              //king is in check return true
-              return true;
-            }
-          }
-
-
+          tiles = ((Pawn)game.gameObjects.get(i)).getCheckMoves();
+          //start new thread
+          LinkedList<Tile> finalTiles = tiles;
+          Thread thread = new Thread(()->{
+            //check if thisTile is one of the possible moves
+            for (Tile tile : finalTiles) {
+              if (tile.equals(thisTile)) {
+                //king is in check return true
+                check.set(true);
+              }
+            }});
+          thread.start();
+          threads.add(thread);
         }
       }
     }
