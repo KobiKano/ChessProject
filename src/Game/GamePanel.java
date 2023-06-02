@@ -39,6 +39,9 @@ public class GamePanel extends JPanel implements Runnable {
   public King whiteKing = null;
   public King blackKing = null;
 
+  boolean whiteWin = false;
+  boolean blackWin = false;
+
   //constructor for class
   public GamePanel(JFrame window, ChessGame.Definitions definitions) {
     this.window = window;
@@ -93,11 +96,27 @@ public class GamePanel extends JPanel implements Runnable {
         //update positions
         removePieces();
         //check if game over
-        new Thread(this::checkIfCheckMate);
+        checkIfCheckMate();
         //draw objects
         repaint();
         //reset timers
         nextTime = currTime + frameTime;
+      }
+
+      //check if game over
+      if(gameOver) {
+        //check if black or white win
+        if (whiteWin) {
+          System.out.println("White Wins!");
+        }
+        else if (blackWin) {
+          System.out.println("Black Wins!");
+        }
+
+        //end game loop
+        System.out.println("Exit to start again");
+        this.removeMouseListener(updater);
+        gameThread.stop();
       }
 
       //System.out.println("Game Running!");
@@ -149,7 +168,7 @@ public class GamePanel extends JPanel implements Runnable {
       //check if king in checkmate
       if (inCheckMate) {
         gameOver = true;
-        System.out.println("Black wins!");
+        blackWin = true;
       }
     }
     //check if black king in check
@@ -170,7 +189,7 @@ public class GamePanel extends JPanel implements Runnable {
       //check if king in checkmate
       if (inCheckMate) {
         gameOver = true;
-        System.out.println("White wins!");
+        whiteWin = true;
       }
     }
   }

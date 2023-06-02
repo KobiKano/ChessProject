@@ -231,19 +231,16 @@ public class King implements GameObject{
     }
 
     //wait for all threads to finish
-    for (int i = 0; i < threads.size(); i++) {
+    for(Thread thread: threads){
       //System.out.println("joining threads");
       try {
-        threads.get(i).join();}
+        thread.join();}
       catch (InterruptedException e) {
         e.printStackTrace();
       }
     }
 
     //return
-    if (check.get()) {
-      return true;
-    }
-    return false;
+    return check.get();
   }
 }
