@@ -39,7 +39,7 @@ public class MenuPanel extends JPanel {
     exit = new JButton("Exit");
     black = new JButton("Black");
     white = new JButton("White");
-    difficulty = new JSlider(0,100,0);
+    difficulty = new JSlider(0,4,0);
     difficultyText = new JTextField("Difficulty: 0");
 
     //add to menuPanel
@@ -90,6 +90,27 @@ public class MenuPanel extends JPanel {
     difficulty.addChangeListener(ChangeListener->{
       difficultyText.setText("Difficulty: " + difficulty.getValue());
       definitions.setDifficulty(difficulty.getValue());
+      //change color of difficulty text based on difficulty level
+      if (difficulty.getValue() == difficulty.getMaximum()) {
+        //set text color to red
+        difficultyText.setBackground(Color.red);
+      }
+      else if (difficulty.getValue() == difficulty.getMaximum()*3/4){
+        //set color to orange
+        difficultyText.setBackground(Color.orange);
+      }
+      else if (difficulty.getValue() == difficulty.getMaximum()/2){
+        //set color to yellow
+        difficultyText.setBackground(Color.yellow);
+      }
+      else if (difficulty.getValue() == difficulty.getMaximum()/4){
+        //set color to green
+        difficultyText.setBackground(Color.green);
+      }
+      else {
+        //set color to white
+        difficultyText.setBackground(Color.white);
+      }
     });
 
     //set difficulty text parameters
