@@ -43,6 +43,13 @@ public class Queen implements GameObject{
     }
   }
 
+  //copy constructor
+  public Queen(Queen queen, Tile currTile) {
+    this.beenMoved = queen.beenMoved;
+    this.currTile = currTile;
+    this.color = queen.color;
+  }
+
   @Override
   public boolean hasBeenMoved() {
     return beenMoved;
@@ -101,7 +108,6 @@ public class Queen implements GameObject{
 
   @Override
   public void setCurrTile(Tile currTile) {
-    currTile.currPiece = this;
     this.currTile = currTile;
   }
 

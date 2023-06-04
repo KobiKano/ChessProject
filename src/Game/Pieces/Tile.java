@@ -3,6 +3,7 @@ package Game.Pieces;
 import Game.GamePanel;
 
 import java.awt.*;
+import java.util.LinkedList;
 
 public class Tile{
   public enum tileColor {
@@ -32,6 +33,32 @@ public class Tile{
     this.color = color;
     this.game = game;
     this.endTile = endTile;
+  }
+
+  //copy constructor
+  public Tile(Tile tile, LinkedList<Tile> tiles) {
+    //find what object is on the tile
+    if (tile.currPiece == null) {
+      this.currPiece = null;
+    }
+    else if (tile.currPiece.toString().equals("pawn")) {
+      this.currPiece = new Pawn((Pawn)tile.currPiece, this);
+    }
+    else if (tile.currPiece.toString().equals("bishop")) {
+      this.currPiece = new Bishop((Bishop)tile.currPiece, this);
+    }
+    else if (tile.currPiece.toString().equals("knight")) {
+      this.currPiece = new Knight((Knight)tile.currPiece, this);
+    }
+    else if (tile.currPiece.toString().equals("rook")) {
+      this.currPiece = new Rook((Rook)tile.currPiece, this);
+    }
+    else if (tile.currPiece.toString().equals("queen")) {
+      this.currPiece = new Queen((Queen)tile.currPiece, this);
+    }
+    else if (tile.currPiece.toString().equals("king")) {
+      this.currPiece = new King((King)tile.currPiece, this, tiles);
+    }
   }
 
   public void draw(Graphics2D graphics) {

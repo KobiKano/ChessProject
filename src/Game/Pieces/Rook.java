@@ -42,6 +42,13 @@ public class Rook implements GameObject{
     }
   }
 
+  //copy constructor
+  public Rook(Rook rook, Tile currTile) {
+    this.beenMoved = rook.beenMoved;
+    this.currTile = currTile;
+    this.color = rook.color;
+  }
+
   @Override
   public boolean hasBeenMoved() {
     return beenMoved;
@@ -100,7 +107,6 @@ public class Rook implements GameObject{
 
   @Override
   public void setCurrTile(Tile currTile) {
-    currTile.currPiece = this;
     this.currTile = currTile;
   }
 

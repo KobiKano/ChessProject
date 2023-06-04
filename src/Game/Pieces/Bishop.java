@@ -43,6 +43,13 @@ public class Bishop implements GameObject{
     }
   }
 
+  //copy constructor
+  public Bishop(Bishop bishop, Tile currTile) {
+    this.beenMoved = bishop.beenMoved;
+    this.currTile = currTile;
+    this.color = bishop.color;
+  }
+
   @Override
   public boolean hasBeenMoved() {
     return beenMoved;
@@ -101,7 +108,6 @@ public class Bishop implements GameObject{
 
   @Override
   public void setCurrTile(Tile currTile) {
-    currTile.currPiece = this;
     this.currTile = currTile;
   }
 

@@ -1,7 +1,6 @@
 package Game.Pieces;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public interface GameObject {

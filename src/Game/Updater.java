@@ -213,6 +213,7 @@ public class Updater implements MouseListener {
           //reset all globals for next move
           possibleMoves = null;
           currPiece = null;
+          game.ai.findNextMove();
           return;
         }
       }

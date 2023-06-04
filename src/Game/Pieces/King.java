@@ -21,6 +21,7 @@ public class King implements GameObject{
   BufferedImage sprite;
   GamePanel game;
   Tile currTile;
+  LinkedList<GameObject> gameObjects;
 
   public King(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
     this.xPos = xPos;
@@ -29,6 +30,7 @@ public class King implements GameObject{
     this.game = game;
     this.currTile = currTile;
     currTile.currPiece = this;
+    gameObjects = game.gameObjects;
 
     //assign sprite image
     try {
@@ -43,6 +45,24 @@ public class King implements GameObject{
     }
     catch (IOException e) {
       e.printStackTrace();
+    }
+  }
+
+  //copy constructor
+  public King(King king, Tile currTile, LinkedList<Tile> tiles) {
+    this.inCheck = king.inCheck;
+    this.rightCastle = king.rightCastle;
+    this.leftCastle = king.leftCastle;
+    this.beenMoved = king.beenMoved;
+    this.currTile = currTile;
+    this.color = king.color;
+    
+    //find all gameObjects in tiles
+    gameObjects = new LinkedList<>();
+    for (Tile tile : tiles) {
+      if (tile.currPiece != null) {
+        gameObjects.add(tile.currPiece);
+      }
     }
   }
 
@@ -104,7 +124,6 @@ public class King implements GameObject{
 
   @Override
   public void setCurrTile(Tile currTile) {
-    currTile.currPiece = this;
     this.currTile = currTile;
   }
 
@@ -180,7 +199,7 @@ public class King implements GameObject{
     LinkedList<Thread> threads = new LinkedList<>();
     AtomicBoolean check = new AtomicBoolean(false);
 
-    for (int i = 0; i < game.gameObjects.size(); i++) {
+    for (int i = 0; i < gameObjects.size(); i++) {
       //check if the king is in check
       if(check.get()) {
         //stop all threads and return
@@ -193,9 +212,9 @@ public class King implements GameObject{
       }
 
       //check if piece is of opposite color
-      if (!game.gameObjects.get(i).getColor().equals(this.color) && !game.gameObjects.get(i).toString().equals("king")) {
-        if (!game.gameObjects.get(i).toString().equals("pawn")) {
-          tiles = game.gameObjects.get(i).getPossibleMoves();
+      if (!gameObjects.get(i).getColor().equals(this.color) && !gameObjects.get(i).toString().equals("king")) {
+        if (!gameObjects.get(i).toString().equals("pawn")) {
+          tiles = gameObjects.get(i).getPossibleMoves();
           LinkedList<Tile> finalTiles = tiles;
           //start new thread
           Thread thread = new Thread(()->{
@@ -213,7 +232,7 @@ public class King implements GameObject{
         //special logic for pawn
         else {
           //make sure tile check is not for tiles above or below pawn
-          tiles = ((Pawn)game.gameObjects.get(i)).getCheckMoves();
+          tiles = ((Pawn)gameObjects.get(i)).getCheckMoves();
           //start new thread
           LinkedList<Tile> finalTiles = tiles;
           Thread thread = new Thread(()->{

@@ -43,6 +43,14 @@ public class Pawn implements GameObject{
     }
   }
 
+  //copy constructor
+  public Pawn(Pawn pawn, Tile currTile) {
+    this.firstMove = pawn.firstMove;
+    this.beenMoved = pawn.beenMoved;
+    this.currTile = currTile;
+    this.color = pawn.color;
+  }
+
   @Override
   public boolean hasBeenMoved() {
     return beenMoved;

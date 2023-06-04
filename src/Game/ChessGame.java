@@ -38,7 +38,7 @@ public class ChessGame {
     window.setLocationRelativeTo(null);
 
     //start menu screen
-    Definitions definitions = new Definitions(false, PlayerColor.WHITE, 1); //default color white
+    Definitions definitions = new Definitions(false, PlayerColor.WHITE, 0); //default color white
     MenuPanel menu = new MenuPanel(window, definitions);
     window.add(menu);
     window.pack();

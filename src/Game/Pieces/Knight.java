@@ -18,12 +18,6 @@ public class Knight implements GameObject{
   GamePanel game;
   Tile currTile;
   King king = null;
-  GameObject oldPiece;
-
-  public Knight(GameObject.tileColor color, Tile currTile) {
-    this.color = color;
-    this.currTile = currTile;
-  }
 
   public Knight(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
     this.xPos = xPos;
@@ -60,6 +54,13 @@ public class Knight implements GameObject{
     catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  //copy constructor
+  public Knight(Knight knight, Tile currTile) {
+    this.beenMoved = knight.beenMoved;
+    this.currTile = currTile;
+    this.color = knight.color;
   }
 
   @Override
@@ -120,7 +121,6 @@ public class Knight implements GameObject{
 
   @Override
   public void setCurrTile(Tile currTile) {
-    currTile.currPiece = this;
     this.currTile = currTile;
   }
 

@@ -1,5 +1,8 @@
 package Game;
 
+import Game.AI.AI;
+import Game.AI.MiniMax;
+import Game.AI.Neural;
 import Game.Pieces.*;
 
 import javax.swing.*;
@@ -26,11 +29,12 @@ public class GamePanel extends JPanel implements Runnable {
   BoardInitializer initializer = new BoardInitializer(gameObjects, tiles, this);
   InputChecker inputChecker = new InputChecker();
   Updater updater = new Updater(gameObjects, this);
+  AI ai;
   Thread gameThread;
   final int FPS = 60;
 
-  int blackScore = 39;
-  int whiteScore = 39;
+  public int blackScore = 39;
+  public int whiteScore = 39;
   boolean gameOver = false;
   boolean blackTurn = false;
   ChessGame.PlayerColor playerColor;
@@ -46,7 +50,14 @@ public class GamePanel extends JPanel implements Runnable {
   public GamePanel(JFrame window, ChessGame.Definitions definitions) {
     this.window = window;
     this.playerColor = definitions.color;
-    this.difficulty = definitions.difficulty;
+    this.difficulty = definitions.difficulty + 1;
+    //check which AI is being used
+    if (difficulty == 5) {
+      ai = new Neural();
+    }
+    else {
+      ai = new MiniMax(tiles, difficulty, !definitions.color.equals(ChessGame.PlayerColor.WHITE));
+    }
 
     //set game panel settings
     this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
