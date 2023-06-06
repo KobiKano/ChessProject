@@ -51,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
     this.window = window;
     this.playerColor = definitions.color;
     this.difficulty = definitions.difficulty + 1;
+    updater.setPlayerColor(playerColor);
     //check which AI is being used
     if (difficulty == 5) {
       ai = new Neural();

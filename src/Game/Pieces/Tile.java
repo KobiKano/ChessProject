@@ -19,6 +19,7 @@ public class Tile{
   public boolean endTile;
   public tileColor color;
   GamePanel game;
+  public int tileNumber;
 
   public Tile above = null;
   public Tile below = null;
@@ -27,16 +28,18 @@ public class Tile{
   public GameObject currPiece = null;
 
   //constructor for class
-  public Tile(int xPos, int yPos, tileColor color, GamePanel game, boolean endTile) {
+  public Tile(int xPos, int yPos, tileColor color, GamePanel game, boolean endTile, int tileNumber) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
     this.game = game;
     this.endTile = endTile;
+    this.tileNumber = tileNumber;
   }
 
   //copy constructor
   public Tile(Tile tile, LinkedList<Tile> tiles) {
+    this.tileNumber = tile.tileNumber;
     //find what object is on the tile
     if (tile.currPiece == null) {
       this.currPiece = null;

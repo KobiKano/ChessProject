@@ -22,8 +22,9 @@ public class King implements GameObject{
   GamePanel game;
   Tile currTile;
   LinkedList<GameObject> gameObjects;
+  int pieceNumber;
 
-  public King(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
+  public King(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile, int pieceNumber) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
@@ -31,6 +32,7 @@ public class King implements GameObject{
     this.currTile = currTile;
     currTile.currPiece = this;
     gameObjects = game.gameObjects;
+    this.pieceNumber = pieceNumber;
 
     //assign sprite image
     try {
@@ -56,6 +58,7 @@ public class King implements GameObject{
     this.beenMoved = king.beenMoved;
     this.currTile = currTile;
     this.color = king.color;
+    this.pieceNumber = king.pieceNumber;
     
     //find all gameObjects in tiles
     gameObjects = new LinkedList<>();
@@ -64,6 +67,11 @@ public class King implements GameObject{
         gameObjects.add(tile.currPiece);
       }
     }
+  }
+
+  @Override
+  public int getPieceNumber() {
+    return pieceNumber;
   }
 
   @Override
@@ -205,7 +213,7 @@ public class King implements GameObject{
         //stop all threads and return
         for (int j = 0; j < threads.size(); j++) {
           //System.out.println("Stopping threads");
-          threads.get(i).stop();
+          threads.get(j).stop();
         }
 
         return true;

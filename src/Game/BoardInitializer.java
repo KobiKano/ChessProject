@@ -26,6 +26,7 @@ public class BoardInitializer {
   }
 
   public void generateBoard() {
+    int tileNumber = 0;
     boolean isBlack = true;
     for (int x = actualSize/2; x < width - actualSize; x += actualSize) {
       isBlack = !isBlack;
@@ -33,18 +34,19 @@ public class BoardInitializer {
         //check if on edge
         if (y == 0 || y == 7 * actualSize) {
           if (isBlack) {
-            tiles.add(new Tile(x, y, Tile.tileColor.BLACK, game, true));
+            tiles.add(new Tile(x, y, Tile.tileColor.BLACK, game, true, tileNumber));
           } else {
-            tiles.add(new Tile(x, y, Tile.tileColor.WHITE, game, true));
+            tiles.add(new Tile(x, y, Tile.tileColor.WHITE, game, true, tileNumber));
           }
         }
         else {
           if (isBlack) {
-            tiles.add(new Tile(x, y, Tile.tileColor.BLACK, game, false));
+            tiles.add(new Tile(x, y, Tile.tileColor.BLACK, game, false, tileNumber));
           } else {
-            tiles.add(new Tile(x, y, Tile.tileColor.WHITE, game, false));
+            tiles.add(new Tile(x, y, Tile.tileColor.WHITE, game, false, tileNumber));
           }
         }
+        tileNumber++;
         isBlack = !isBlack;
       }
     }
@@ -78,51 +80,54 @@ public class BoardInitializer {
       }
     }
 
+    //pieceNumber index to label piece
+    int pieceNumber = 0;
+
     //draw black pieces
     //draw king
-    King blackKing = new King(actualSize/2 + 4 * actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(32));
+    King blackKing = new King(actualSize/2 + 4 * actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(32), pieceNumber++);
     gameObjects.add(blackKing);
     game.blackKing = blackKing;
     //draw pawns
     int pawnTileIndex = 1;
     for (int i = actualSize/2; i < width - actualSize; i += actualSize) {
-      gameObjects.add(new Pawn(i, actualSize, GameObject.tileColor.BLACK, game, tiles.get(pawnTileIndex)));
+      gameObjects.add(new Pawn(i, actualSize, GameObject.tileColor.BLACK, game, tiles.get(pawnTileIndex), pieceNumber++));
       pawnTileIndex += 8;
     }
     //draw rooks
-    gameObjects.add(new Rook(actualSize/2, 0, GameObject.tileColor.BLACK, game, tiles.get(0)));
-    gameObjects.add(new Rook( width -  2 * actualSize + actualSize/2, 0, GameObject.tileColor.BLACK, game, tiles.get(56)));
+    gameObjects.add(new Rook(actualSize/2, 0, GameObject.tileColor.BLACK, game, tiles.get(0), pieceNumber++));
+    gameObjects.add(new Rook( width -  2 * actualSize + actualSize/2, 0, GameObject.tileColor.BLACK, game, tiles.get(56), pieceNumber++));
     //draw knights
-    gameObjects.add(new Knight(actualSize/2 + actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(8)));
-    gameObjects.add(new Knight(width - 3 * actualSize + actualSize/2, 0 , GameObject.tileColor.BLACK, game, tiles.get(48)));
+    gameObjects.add(new Knight(actualSize/2 + actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(8), pieceNumber++));
+    gameObjects.add(new Knight(width - 3 * actualSize + actualSize/2, 0 , GameObject.tileColor.BLACK, game, tiles.get(48), pieceNumber++));
     //draw bishops
-    gameObjects.add(new Bishop(actualSize/2 + 2 * actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(16)));
-    gameObjects.add(new Bishop(width - 4 * actualSize + actualSize/2, 0 , GameObject.tileColor.BLACK, game, tiles.get(40)));
+    gameObjects.add(new Bishop(actualSize/2 + 2 * actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(16), pieceNumber++));
+    gameObjects.add(new Bishop(width - 4 * actualSize + actualSize/2, 0 , GameObject.tileColor.BLACK, game, tiles.get(40), pieceNumber++));
     //draw queen
-    gameObjects.add(new Queen(actualSize/2 + 3 * actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(24)));
+    gameObjects.add(new Queen(actualSize/2 + 3 * actualSize, 0 , GameObject.tileColor.BLACK, game, tiles.get(24), pieceNumber++));
 
 
     //draw white pieces
     //draw king
-    King whiteKing = new King(actualSize/2 + 4 * actualSize, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 3*8));
+    King whiteKing = new King(actualSize/2 + 4 * actualSize, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 3*8), pieceNumber++);
     gameObjects.add(whiteKing);
     game.whiteKing = whiteKing;
     //draw pawns
     pawnTileIndex = 6;
     for (int i = actualSize/2; i < width - actualSize; i += actualSize) {
-      gameObjects.add(new Pawn(i, height - 3 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(pawnTileIndex)));
+      gameObjects.add(new Pawn(i, height - 3 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(pawnTileIndex), pieceNumber++));
       pawnTileIndex += 8;
     }
     //draw rooks
-    gameObjects.add(new Rook(actualSize/2, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(7)));
-    gameObjects.add(new Rook( width -  2 * actualSize + actualSize/2, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63)));
+    gameObjects.add(new Rook(actualSize/2, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(7), pieceNumber++));
+    gameObjects.add(new Rook( width -  2 * actualSize + actualSize/2, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63), pieceNumber++));
     //draw knights
-    gameObjects.add(new Knight(actualSize/2 + actualSize, height - 2 * actualSize , GameObject.tileColor.WHITE, game, tiles.get(7 + 8)));
-    gameObjects.add(new Knight(width - 3 * actualSize + actualSize/2, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 8)));
+    gameObjects.add(new Knight(actualSize/2 + actualSize, height - 2 * actualSize , GameObject.tileColor.WHITE, game, tiles.get(7 + 8), pieceNumber++));
+    gameObjects.add(new Knight(width - 3 * actualSize + actualSize/2, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 8), pieceNumber++));
     //draw bishops
-    gameObjects.add(new Bishop(actualSize/2 + 2 * actualSize, height - 2 * actualSize , GameObject.tileColor.WHITE, game, tiles.get(7 + 2*8)));
-    gameObjects.add(new Bishop(width - 4 * actualSize + actualSize/2, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 2*8)));
+    gameObjects.add(new Bishop(actualSize/2 + 2 * actualSize, height - 2 * actualSize , GameObject.tileColor.WHITE, game, tiles.get(7 + 2*8), pieceNumber++));
+    gameObjects.add(new Bishop(width - 4 * actualSize + actualSize/2, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(63 - 2*8), pieceNumber++));
     //draw queen
-    gameObjects.add(new Queen(actualSize/2 + 3 * actualSize, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(7 + 3*8)));
+    gameObjects.add(new Queen(actualSize/2 + 3 * actualSize, height - 2 * actualSize, GameObject.tileColor.WHITE, game, tiles.get(7 + 3*8), pieceNumber));
   }
 }

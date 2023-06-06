@@ -17,14 +17,16 @@ public class Rook implements GameObject{
   BufferedImage sprite;
   GamePanel game;
   Tile currTile;
+  int pieceNumber;
 
-  public Rook(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
+  public Rook(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile, int pieceNumber) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
     this.game = game;
     this.currTile = currTile;
     currTile.currPiece = this;
+    this.pieceNumber = pieceNumber;
 
     //assign sprite image
     try {
@@ -47,6 +49,12 @@ public class Rook implements GameObject{
     this.beenMoved = rook.beenMoved;
     this.currTile = currTile;
     this.color = rook.color;
+    this.pieceNumber = rook.pieceNumber;
+  }
+
+  @Override
+  public int getPieceNumber() {
+    return pieceNumber;
   }
 
   @Override

@@ -18,14 +18,16 @@ public class Bishop implements GameObject{
   BufferedImage sprite;
   GamePanel game;
   Tile currTile;
+  int pieceNumber;
 
-  public Bishop(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
+  public Bishop(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile, int pieceNumber) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
     this.game = game;
     this.currTile = currTile;
     currTile.currPiece = this;
+    this.pieceNumber = pieceNumber;
 
     //assign sprite image
     try {
@@ -48,6 +50,12 @@ public class Bishop implements GameObject{
     this.beenMoved = bishop.beenMoved;
     this.currTile = currTile;
     this.color = bishop.color;
+    this.pieceNumber = bishop.pieceNumber;
+  }
+
+  @Override
+  public int getPieceNumber() {
+    return pieceNumber;
   }
 
   @Override

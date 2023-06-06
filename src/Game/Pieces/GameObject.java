@@ -14,6 +14,7 @@ public interface GameObject {
   int getXPos();
   int getYPos();
   int getSize();
+  int getPieceNumber();
   void setYPos(int yPos);
   void setXPos(int xPos);
   void draw(Graphics2D graphics);

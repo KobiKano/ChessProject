@@ -17,28 +17,16 @@ public class Knight implements GameObject{
   BufferedImage sprite;
   GamePanel game;
   Tile currTile;
-  King king = null;
+  int pieceNumber;
 
-  public Knight(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
+  public Knight(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile, int pieceNumber) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
     this.game = game;
     this.currTile = currTile;
     currTile.currPiece = this;
-
-    //find king
-    for (GameObject piece : game.gameObjects) {
-      if (piece.toString().equals("king") && piece.getColor().equals(this.color)) {
-        king = (King)piece;
-        break;
-      }
-    }
-    //make sure king found
-    if (king == null) {
-      System.out.println("Error Finding King! Exiting");
-      System.exit(1);
-    }
+    this.pieceNumber = pieceNumber;
 
     //assign sprite image
     try {
@@ -61,6 +49,12 @@ public class Knight implements GameObject{
     this.beenMoved = knight.beenMoved;
     this.currTile = currTile;
     this.color = knight.color;
+    this.pieceNumber = knight.pieceNumber;
+  }
+
+  @Override
+  public int getPieceNumber() {
+    return pieceNumber;
   }
 
   @Override

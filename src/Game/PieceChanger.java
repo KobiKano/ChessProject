@@ -58,7 +58,7 @@ public class PieceChanger extends JPanel{
     bishop.setBounds(WIDTH/2 - BUTTON_WIDTH/2, 50 + 20 + BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
     bishop.addActionListener(ActionListener->{
       //add new piece
-      newPiece = new Bishop(oldPiece.getXPos(), oldPiece.getYPos(), oldPiece.getColor(), this.game, oldPiece.getCurrTile());
+      newPiece = new Bishop(oldPiece.getXPos(), oldPiece.getYPos(), oldPiece.getColor(), this.game, oldPiece.getCurrTile(), oldPiece.getPieceNumber());
       //remove old piece and add new
       game.gameObjects.remove(oldPiece);
       game.gameObjects.add(newPiece);
@@ -80,7 +80,7 @@ public class PieceChanger extends JPanel{
     knight.setBounds(WIDTH/2 - BUTTON_WIDTH/2, 50 + 40 + 2*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
     knight.addActionListener(ActionListener->{
       //add new piece
-      newPiece = new Knight(oldPiece.getXPos(), oldPiece.getYPos(), oldPiece.getColor(), this.game, oldPiece.getCurrTile());
+      newPiece = new Knight(oldPiece.getXPos(), oldPiece.getYPos(), oldPiece.getColor(), this.game, oldPiece.getCurrTile(), oldPiece.getPieceNumber());
       //remove old piece and add new
       game.gameObjects.remove(oldPiece);
       game.gameObjects.add(newPiece);
@@ -92,7 +92,7 @@ public class PieceChanger extends JPanel{
         game.whiteScore -= oldPiece.getCost();
         game.whiteScore += newPiece.getCost();
       }
-      System.out.println("Bishop chosen!");
+      System.out.println("Knight chosen!");
       System.out.println("White Score: " + game.whiteScore +
                              "\nBlack Score: " + game.blackScore);
       pieceChosen = true;
@@ -102,7 +102,7 @@ public class PieceChanger extends JPanel{
     queen.setBounds(WIDTH/2 - BUTTON_WIDTH/2, 50 + 60 + 3*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
     queen.addActionListener(ActionListener->{
       //add new piece
-      newPiece = new Queen(oldPiece.getXPos(), oldPiece.getYPos(), oldPiece.getColor(), this.game, oldPiece.getCurrTile());
+      newPiece = new Queen(oldPiece.getXPos(), oldPiece.getYPos(), oldPiece.getColor(), this.game, oldPiece.getCurrTile(), oldPiece.getPieceNumber());
       //remove old piece and add new
       game.gameObjects.remove(oldPiece);
       game.gameObjects.add(newPiece);
@@ -114,7 +114,7 @@ public class PieceChanger extends JPanel{
         game.whiteScore -= oldPiece.getCost();
         game.whiteScore += newPiece.getCost();
       }
-      System.out.println("Bishop chosen!");
+      System.out.println("Queen chosen!");
       System.out.println("White Score: " + game.whiteScore +
                              "\nBlack Score: " + game.blackScore);
       pieceChosen = true;
@@ -124,7 +124,7 @@ public class PieceChanger extends JPanel{
     rook.setBounds(WIDTH/2 - BUTTON_WIDTH/2, 50 + 80 + 4*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
     rook.addActionListener(ActionListener->{
       //add new piece
-      newPiece = new Rook(oldPiece.getXPos(), oldPiece.getYPos(), oldPiece.getColor(), this.game, oldPiece.getCurrTile());
+      newPiece = new Rook(oldPiece.getXPos(), oldPiece.getYPos(), oldPiece.getColor(), this.game, oldPiece.getCurrTile(), oldPiece.getPieceNumber());
       //remove old piece and add new
       game.gameObjects.remove(oldPiece);
       game.gameObjects.add(newPiece);
@@ -136,7 +136,7 @@ public class PieceChanger extends JPanel{
         game.whiteScore -= oldPiece.getCost();
         game.whiteScore += newPiece.getCost();
       }
-      System.out.println("Bishop chosen!");
+      System.out.println("Rook chosen!");
       System.out.println("White Score: " + game.whiteScore +
                              "\nBlack Score: " + game.blackScore);
       pieceChosen = true;

@@ -70,8 +70,6 @@ public class Board {
         index++;
       }
     }
-
-    printBoard();
   }
 
   public int getValue(boolean isWhite) {
@@ -132,7 +130,7 @@ public class Board {
 
 
 
-  private void printBoard() {
+  public void printBoard() {
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         System.out.print(board[i][j] + " ");

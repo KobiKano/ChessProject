@@ -18,14 +18,16 @@ public class Pawn implements GameObject{
   BufferedImage sprite;
   GamePanel game;
   Tile currTile;
+  int pieceNumber;
 
-  public Pawn(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile) {
+  public Pawn(int xPos, int yPos, GameObject.tileColor color, GamePanel game, Tile currTile, int pieceNumber) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.color = color;
     this.game = game;
     this.currTile = currTile;
     currTile.currPiece = this;
+    this.pieceNumber = pieceNumber;
 
     //assign sprite image
     try {
@@ -49,6 +51,12 @@ public class Pawn implements GameObject{
     this.beenMoved = pawn.beenMoved;
     this.currTile = currTile;
     this.color = pawn.color;
+    this.pieceNumber = pawn.pieceNumber;
+  }
+
+  @Override
+  public int getPieceNumber() {
+    return pieceNumber;
   }
 
   @Override
