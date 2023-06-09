@@ -2,7 +2,6 @@ package Game;
 
 import Game.AI.AI;
 import Game.AI.MiniMax;
-import Game.AI.Neural;
 import Game.Pieces.*;
 
 import javax.swing.*;
@@ -52,13 +51,9 @@ public class GamePanel extends JPanel implements Runnable {
     this.playerColor = definitions.color;
     this.difficulty = definitions.difficulty + 1;
     updater.setPlayerColor(playerColor);
-    //check which AI is being used
-    if (difficulty == 5) {
-      ai = new Neural();
-    }
-    else {
-      ai = new MiniMax(tiles, difficulty, !definitions.color.equals(ChessGame.PlayerColor.WHITE));
-    }
+    //create AI
+    ai = new MiniMax(tiles, difficulty, !definitions.color.equals(ChessGame.PlayerColor.WHITE));
+
 
     //set game panel settings
     this.setPreferredSize(new Dimension(WIDTH, HEIGHT));

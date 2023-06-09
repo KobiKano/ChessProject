@@ -1,9 +1,11 @@
 package Game.AI;
 
 import Game.Pieces.GameObject;
+import Game.Pieces.King;
 import Game.Pieces.Tile;
 
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class MiniMax implements AI {
   //class to store pieceMove and score combinations
@@ -77,6 +79,7 @@ public class MiniMax implements AI {
     //make sure pair is found
     if (outputObject == null || outputTile == null) {
       System.out.println("Error finding pieceMove pair!");
+      System.exit(1);
     }
 
     return new PieceMove(outputObject, outputTile);
@@ -98,7 +101,7 @@ public class MiniMax implements AI {
     //start with current context of the board as root
     root = new TreeNode(new Node(null,board,board.getValue(isWhite)), null);
 
-    int value = miniMaxHelper(root, true, tiles, difficulty);
+    int value = miniMaxHelper(root, true, tiles, difficulty, -10000, 10000);
 
     //locals
     PieceMove output = null;
@@ -114,12 +117,13 @@ public class MiniMax implements AI {
     //check if move found
     if (output == null) {
       System.out.println("Error finding move!");
+      System.exit(1);
     }
 
     return output;
   }
 
-  private int miniMaxHelper(TreeNode parent, boolean maximizing, LinkedList<Tile> tiles, int depth) {
+  private int miniMaxHelper(TreeNode parent, boolean maximizing, LinkedList<Tile> tiles, int depth, int alpha, int beta) {
     //base case
     if (depth == 0) {
       return parent.data.value;
@@ -129,22 +133,32 @@ public class MiniMax implements AI {
     if (maximizing) {
       int maxEval = -10000;
       //find all pieces of same color type
-      for (Tile tile : tiles) {
-        if (tile.currPiece != null && tile.currPiece.getColor().equals(this.color)) {
+      PriorityQueue<GameObject> gameObjects = getGameObjects(tiles);
+      GameObject currPiece;
+      while (!gameObjects.isEmpty()) {
+        currPiece = gameObjects.poll();
+        if (currPiece != null && currPiece.getColor().equals(this.color)) {
           //find all possible valid moves
-          LinkedList<Tile> validMoves = tile.currPiece.getPossibleMoves();
+          LinkedList<Tile> validMoves = currPiece.getPossibleMoves();
           //add each piece move combination to tree
           for (Tile validTile : validMoves) {
-            PieceMove pieceMove = new PieceMove(tile.currPiece, validTile);
+            PieceMove pieceMove = new PieceMove(currPiece, validTile);
             LinkedList<Tile> newTiles = movePiece(tiles, pieceMove);
             //find board with new move
             Board newBoard = new Board(newTiles);
             parent.children.add(new TreeNode(new Node(pieceMove, newBoard, newBoard.getValue(isWhite)), parent));
 
             //recursively call function to generate branch from new child
-            int eval = miniMaxHelper(parent.children.getLast(),false, newTiles,depth - 1);
+            int eval = miniMaxHelper(parent.children.getLast(),false, newTiles,depth - 1, alpha, beta);
             maxEval = Math.max(eval, maxEval);
+            alpha = Math.max(eval, alpha);
+            if (beta <= alpha) {
+              break;
+            }
           }
+        }
+        if (beta <= alpha) {
+          break;
         }
       }
       parent.data.value = maxEval;
@@ -153,21 +167,31 @@ public class MiniMax implements AI {
     else {
       int minEval = 10000;
       //find all pieces of other color type
-      for (Tile tile : tiles) {
-        if (tile.currPiece != null && !tile.currPiece.getColor().equals(this.color)) {
+      PriorityQueue<GameObject> gameObjects = getGameObjects(tiles);
+      GameObject currPiece;
+      while (!gameObjects.isEmpty()) {
+        currPiece = gameObjects.poll();
+        if (currPiece != null && !currPiece.getColor().equals(this.color)) {
           //find all possible valid moves
-          LinkedList<Tile> validMoves = tile.currPiece.getPossibleMoves();
+          LinkedList<Tile> validMoves = currPiece.getPossibleMoves();
           //add each piece move combination to tree
           for (Tile validTile : validMoves) {
-            PieceMove pieceMove = new PieceMove(tile.currPiece, validTile);
+            PieceMove pieceMove = new PieceMove(currPiece, validTile);
             LinkedList<Tile> newTiles = movePiece(tiles, pieceMove);
             Board newBoard = new Board(newTiles);
             parent.children.add(new TreeNode(new Node(pieceMove, newBoard, newBoard.getValue(isWhite)), parent));
 
             //recursively call function to generate branch from new child
-            int eval = miniMaxHelper(parent.children.getLast(),true, newTiles,depth - 1);
+            int eval = miniMaxHelper(parent.children.getLast(),true, newTiles,depth - 1, alpha, beta);
             minEval = Math.min(eval, minEval);
+            beta = Math.min(eval, beta);
+            if (beta <= alpha) {
+              break;
+            }
           }
+        }
+        if (beta <= alpha) {
+          break;
         }
       }
       parent.data.value = minEval;
@@ -179,8 +203,8 @@ public class MiniMax implements AI {
     LinkedList<Tile> output = new LinkedList<>();
 
     //iterate through output and copy all tiles
-    for (int i = 0; i < tiles.size(); i++) {
-      output.add(i, new Tile(tiles.get(i), output));
+    for (Tile tile : tiles) {
+      output.add(tile.tileNumber, new Tile(tile));
     }
 
     //link all tiles
@@ -209,6 +233,25 @@ public class MiniMax implements AI {
       if (row == 8) {
         row = 0;
         column++;
+      }
+    }
+
+    //iterate through output and find each king
+    for (Tile tile : output) {
+      if (tile.currPiece != null && tile.currPiece.toString().equals("king")) {
+        ((King)tile.currPiece).setGameObjects(output);
+      }
+    }
+
+    return output;
+  }
+
+  private PriorityQueue<GameObject> getGameObjects(LinkedList<Tile> tiles) {
+    PriorityQueue<GameObject> output = new PriorityQueue<>();
+
+    for (Tile tile : tiles) {
+      if (tile.currPiece != null) {
+        output.add(tile.currPiece);
       }
     }
 

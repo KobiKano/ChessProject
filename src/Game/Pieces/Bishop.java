@@ -10,7 +10,7 @@ import java.util.Objects;
 import Game.GamePanel;
 
 
-public class Bishop implements GameObject{
+public class Bishop implements GameObject, Comparable{
   boolean beenMoved = false;
   int xPos;
   int yPos;
@@ -210,5 +210,21 @@ public class Bishop implements GameObject{
     }
 
     return output;
+  }
+
+  @Override
+  public int compareTo(Object o) {
+    //object should only be compared to other GameObjects
+
+    //use piece score to determine comparison
+    if (((GameObject) o).getCost() < this.getCost()) {
+      return 1;
+    }
+    else if (((GameObject) o).getCost() > this.getCost()) {
+      return -1;
+    }
+
+    //default return
+    return 0;
   }
 }

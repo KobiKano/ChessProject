@@ -15,7 +15,7 @@ public class Board {
       for (int j = 0; j < 8; j++) {
         //check what should be added to board
         if (tiles.get(index).currPiece == null) {
-          board[j][i] = "0";
+          board[j][i] = String.valueOf(tiles.get(index).tileNumber);
         }
         else if (tiles.get(index).currPiece.toString().equals("pawn")) {
           //check color

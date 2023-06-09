@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class King implements GameObject{
+public class King implements GameObject, Comparable{
   public boolean beenMoved = false;
   public boolean inCheck = false;
   public boolean leftCastle = false;
@@ -51,7 +51,7 @@ public class King implements GameObject{
   }
 
   //copy constructor
-  public King(King king, Tile currTile, LinkedList<Tile> tiles) {
+  public King(King king, Tile currTile) {
     this.inCheck = king.inCheck;
     this.rightCastle = king.rightCastle;
     this.leftCastle = king.leftCastle;
@@ -59,7 +59,9 @@ public class King implements GameObject{
     this.currTile = currTile;
     this.color = king.color;
     this.pieceNumber = king.pieceNumber;
-    
+  }
+
+  public void setGameObjects(LinkedList<Tile> tiles) {
     //find all gameObjects in tiles
     gameObjects = new LinkedList<>();
     for (Tile tile : tiles) {
@@ -186,7 +188,7 @@ public class King implements GameObject{
 }
 
   private boolean checkCastleRight() {
-    return !beenMoved && !inCheck && currTile.right.currPiece == null && currTile.right.right.currPiece == null && currTile.right.right.right.currPiece != null
+    return !beenMoved && !inCheck && currTile.right.currPiece == null && currTile.right.right.currPiece == null && currTile.right.right.right != null && currTile.right.right.right.currPiece != null
           && currTile.right.right.right.currPiece.toString().equals("rook") && currTile.right.right.right.currPiece.getColor().equals(this.color)
                && !((Rook)currTile.right.right.right.currPiece).beenMoved && checkPath(false);
 }
@@ -269,5 +271,21 @@ public class King implements GameObject{
 
     //return
     return check.get();
+  }
+
+  @Override
+  public int compareTo(Object o) {
+    //object should only be compared to other GameObjects
+
+    //use piece score to determine comparison
+    if (((GameObject) o).getCost() < this.getCost()) {
+      return 1;
+    }
+    else if (((GameObject) o).getCost() > this.getCost()) {
+      return -1;
+    }
+
+    //default return
+    return 0;
   }
 }

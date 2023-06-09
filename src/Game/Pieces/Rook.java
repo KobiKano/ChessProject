@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
 
-public class Rook implements GameObject{
+public class Rook implements GameObject, Comparable{
   public boolean beenMoved = false;
   int xPos;
   int yPos;
@@ -172,5 +172,21 @@ public class Rook implements GameObject{
     }
 
     return output;
+  }
+
+  @Override
+  public int compareTo(Object o) {
+    //object should only be compared to other GameObjects
+
+    //use piece score to determine comparison
+    if (((GameObject) o).getCost() < this.getCost()) {
+      return 1;
+    }
+    else if (((GameObject) o).getCost() > this.getCost()) {
+      return -1;
+    }
+
+    //default return
+    return 0;
   }
 }

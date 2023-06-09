@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
 
-public class Pawn implements GameObject{
+public class Pawn implements GameObject, Comparable{
   boolean beenMoved = false;
   public boolean firstMove = true;
   int xPos;
@@ -198,5 +198,25 @@ public class Pawn implements GameObject{
 
     //default return
     return output;
+  }
+
+  @Override
+  public int compareTo(Object o) {
+    //object should only be compared to other GameObjects
+
+    //in case where pawn hasn't been moved always higher priority
+    if (this.firstMove) {
+      return 1;
+    }
+    //use piece score to determine comparison
+    else if (((GameObject) o).getCost() < this.getCost()) {
+      return 1;
+    }
+    else if (((GameObject) o).getCost() > this.getCost()) {
+      return -1;
+    }
+
+    //default return
+    return 0;
   }
 }

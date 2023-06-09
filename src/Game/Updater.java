@@ -292,6 +292,7 @@ public class Updater implements MouseListener {
     }
     if (currPiece == null || tile == null) {
       System.out.println("Error matching piece and move!");
+      System.exit(1);
     }
 
     //check for special logic

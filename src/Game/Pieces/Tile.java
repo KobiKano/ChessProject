@@ -38,7 +38,7 @@ public class Tile{
   }
 
   //copy constructor
-  public Tile(Tile tile, LinkedList<Tile> tiles) {
+  public Tile(Tile tile) {
     this.tileNumber = tile.tileNumber;
     //find what object is on the tile
     if (tile.currPiece == null) {
@@ -60,7 +60,7 @@ public class Tile{
       this.currPiece = new Queen((Queen)tile.currPiece, this);
     }
     else if (tile.currPiece.toString().equals("king")) {
-      this.currPiece = new King((King)tile.currPiece, this, tiles);
+      this.currPiece = new King((King)tile.currPiece, this);
     }
   }
 
