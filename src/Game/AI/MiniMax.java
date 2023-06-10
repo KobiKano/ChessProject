@@ -1,8 +1,7 @@
 package Game.AI;
 
-import Game.Pieces.GameObject;
-import Game.Pieces.King;
-import Game.Pieces.Tile;
+import Game.GamePanel;
+import Game.Pieces.*;
 
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -38,12 +37,14 @@ public class MiniMax implements AI {
   private TreeNode root;
   private GameObject.tileColor color;
   boolean isWhite;
+  GamePanel game;
 
   //constructor for class
-  public MiniMax(LinkedList<Tile> tiles, int difficulty, boolean isWhite) {
+  public MiniMax(LinkedList<Tile> tiles, int difficulty, boolean isWhite, GamePanel game) {
     this.tiles = tiles;
     this.difficulty = difficulty;
     this.isWhite = isWhite;
+    this.game = game;
     if (isWhite) {
       this.color = GameObject.tileColor.WHITE;
     }
@@ -262,6 +263,11 @@ public class MiniMax implements AI {
     LinkedList<Tile> output;
     Tile oldTile;
     GameObject oldPiece;
+    Rook rook = null;
+    boolean oldMoved = true;
+    boolean pawnPromote = false;
+    boolean castleLeft = false;
+    boolean castleRight = false;
 
     //move the piece
     oldTile = pieceMove.piece().getCurrTile();
@@ -270,13 +276,79 @@ public class MiniMax implements AI {
     pieceMove.tile().currPiece = pieceMove.piece();
     oldTile.currPiece = null;
 
+    //make sure movement booleans in the moved piece are changed
+    if (pieceMove.piece().toString().equals("pawn")) {
+      oldMoved = ((Pawn)pieceMove.piece()).firstMove;
+      ((Pawn)pieceMove.piece()).firstMove = false;
+
+      //check if the tile being moved into is endTile
+      if (pieceMove.tile().endTile) {
+        pawnPromote = true;
+        pieceMove.setPiece(new Queen(0, 0, pieceMove.piece().getColor(), this.game, pieceMove.piece().getCurrTile(), pieceMove.piece().getPieceNumber()));
+      }
+    }
+    else if (pieceMove.piece().toString().equals("king")) {
+      oldMoved = ((King)pieceMove.piece()).beenMoved;
+      ((King)pieceMove.piece()).beenMoved = true;
+
+      //check if castle performed
+      if (!oldMoved && oldTile.left != null && oldTile.left.left != null && oldTile.left.left.tileNumber == pieceMove.tile().tileNumber) {
+        castleLeft = true;
+        //move rook
+        rook = (Rook)oldTile.left.left.left.left.currPiece;
+        rook.getCurrTile().currPiece = null;
+        rook.setCurrTile(oldTile.left);
+        oldTile.left.currPiece = rook;
+      }
+      if (!oldMoved && oldTile.right != null && oldTile.right.right != null && oldTile.right.right.tileNumber == pieceMove.tile().tileNumber) {
+        castleRight = true;
+        //move rook
+        rook = (Rook)oldTile.right.right.right.currPiece;
+        rook.getCurrTile().currPiece = null;
+        rook.setCurrTile(oldTile.right);
+        oldTile.right.currPiece = rook;
+      }
+    }
+    else if (pieceMove.piece().toString().equals("rook")) {
+      oldMoved = ((Rook)pieceMove.piece()).beenMoved;
+      ((Rook)pieceMove.piece()).beenMoved = true;
+    }
+
     //copy tiles
     output = copyTiles(tiles);
+
+    //check if pawn promotion needs to be reversed
+    if (pawnPromote) {
+      pieceMove.setPiece(new Pawn(0, 0, pieceMove.piece().getColor(), this.game, pieceMove.piece().getCurrTile(), pieceMove.piece().getPieceNumber()));
+    }
+
+    //check if castle needs to be reversed
+    if (castleLeft) {
+      rook.getCurrTile().currPiece = null;
+      rook.setCurrTile(oldTile.left.left.left.left);
+      oldTile.left.left.left.left.currPiece = rook;
+    }
+    if (castleRight) {
+      rook.getCurrTile().currPiece = null;
+      rook.setCurrTile(oldTile.right.right.right);
+      oldTile.right.right.right.currPiece = rook;
+    }
 
     //revert changes to original
     pieceMove.piece().setCurrTile(oldTile);
     pieceMove.tile().currPiece = oldPiece;
     oldTile.currPiece = pieceMove.piece();
+
+    //revert been moved
+    if (pieceMove.piece().toString().equals("pawn")) {
+      ((Pawn)pieceMove.piece()).firstMove = oldMoved;
+    }
+    else if (pieceMove.piece().toString().equals("king")) {
+      ((King)pieceMove.piece()).beenMoved = oldMoved;
+    }
+    else if (pieceMove.piece().toString().equals("rook")) {
+      ((Rook)pieceMove.piece()).beenMoved = oldMoved;
+    }
 
     return output;
   }

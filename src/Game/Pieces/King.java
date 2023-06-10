@@ -188,7 +188,7 @@ public class King implements GameObject, Comparable{
 }
 
   private boolean checkCastleRight() {
-    return !beenMoved && !inCheck && currTile.right.currPiece == null && currTile.right.right.currPiece == null && currTile.right.right.right != null && currTile.right.right.right.currPiece != null
+    return !beenMoved && !inCheck && currTile.right.currPiece == null && currTile.right.right.currPiece == null && currTile.right.right.right.currPiece != null
           && currTile.right.right.right.currPiece.toString().equals("rook") && currTile.right.right.right.currPiece.getColor().equals(this.color)
                && !((Rook)currTile.right.right.right.currPiece).beenMoved && checkPath(false);
 }

@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
     this.difficulty = definitions.difficulty + 1;
     updater.setPlayerColor(playerColor);
     //create AI
-    ai = new MiniMax(tiles, difficulty, !definitions.color.equals(ChessGame.PlayerColor.WHITE));
+    ai = new MiniMax(tiles, difficulty, !definitions.color.equals(ChessGame.PlayerColor.WHITE), this);
 
 
     //set game panel settings
