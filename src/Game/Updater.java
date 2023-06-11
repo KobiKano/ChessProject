@@ -218,6 +218,8 @@ public class Updater implements MouseListener {
           //reset all globals and prepare for next move
           possibleMoves = null;
           currPiece = null;
+
+          //mark AI to do its turn
           turnAI = true;
 
           return;
@@ -356,9 +358,7 @@ public class Updater implements MouseListener {
         }
       }
 
-
       //move piece to tile
-      //move piece
       GameObject oldPiece = tile.currPiece;
       currPiece.getCurrTile().currPiece = null;
       currPiece.setXPos(tile.xPos);
@@ -390,6 +390,8 @@ public class Updater implements MouseListener {
         king.inCheck = false;
         checkTile.inCheck = false;
       }
+
+      //mark AI turn as finished
       turnAI = false;
     }
   }

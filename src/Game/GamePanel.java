@@ -1,7 +1,6 @@
 package Game;
 
 import Game.AI.AI;
-import Game.AI.MiniMax;
 import Game.Pieces.*;
 
 import javax.swing.*;
@@ -52,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
     this.difficulty = definitions.difficulty + 1;
     updater.setPlayerColor(playerColor);
     //create AI
-    ai = new MiniMax(tiles, difficulty, !definitions.color.equals(ChessGame.PlayerColor.WHITE), this);
+    ai = new AI(tiles, difficulty, !definitions.color.equals(ChessGame.PlayerColor.WHITE), this);
 
 
     //set game panel settings
@@ -65,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //initialize board and pieces
     initializer.generateBoard();
+    ai.setUpOpeners();
 
     //make sure king was found
     if (whiteKing == null) {
