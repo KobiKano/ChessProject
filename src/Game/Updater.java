@@ -13,6 +13,7 @@ public class Updater implements MouseListener {
   public int xPos = 0;
   public int yPos = 0;
   boolean turnAI;
+  boolean playerWhite;
   LinkedList<GameObject> gameObjects;
   GamePanel game;
   GameObject currPiece = null;
@@ -36,6 +37,7 @@ public class Updater implements MouseListener {
 
   public void setPlayerColor(ChessGame.PlayerColor playerColor) {
     turnAI = !playerColor.equals(ChessGame.PlayerColor.WHITE);
+    playerWhite = playerColor.equals(ChessGame.PlayerColor.WHITE);
   }
 
   @Override
@@ -58,8 +60,8 @@ public class Updater implements MouseListener {
         if (xPos > xMin && yPos > yMin && xPos < xMax && yPos < yMax) {
           System.out.println("Selected Object: " + object);
           //check if not turn
-          if ((object.getColor() == GameObject.tileColor.BLACK && !game.blackTurn) ||
-                  (object.getColor() == GameObject.tileColor.WHITE && game.blackTurn)) {
+          if ((object.getColor() == GameObject.tileColor.BLACK && playerWhite) ||
+                  (object.getColor() == GameObject.tileColor.WHITE && !playerWhite)) {
             System.out.println("Not your Piece!");
             return;
           }
@@ -216,9 +218,7 @@ public class Updater implements MouseListener {
           //reset all globals and prepare for next move
           possibleMoves = null;
           currPiece = null;
-
-          //do AI turn
-          doAITurn();
+          turnAI = true;
 
           return;
         }
@@ -271,122 +271,126 @@ public class Updater implements MouseListener {
     game.window.setVisible(true);
   }
 
-  private void doAITurn() {
-    //find piece and tile combination determined by AI algorithm
-    PieceMove pieceMove = game.ai.findNextMove();
-    GameObject testPiece = pieceMove.piece();
-    Tile testMove = pieceMove.tile();
-    GameObject currPiece = null;
-    Tile tile = null;
+  public void doAITurn() {
+    //make sure it is AI turn
+    if (turnAI) {
+      //find piece and tile combination determined by AI algorithm
+      PieceMove pieceMove = game.ai.findNextMove();
+      GameObject testPiece = pieceMove.piece();
+      Tile testMove = pieceMove.tile();
+      GameObject currPiece = null;
+      Tile tile = null;
 
-    //make sure tile and piece are in gameObjects and Tiles
-    for (GameObject piece : gameObjects) {
-      if (testPiece.getPieceNumber() == piece.getPieceNumber()) {
-        currPiece = piece;
-      }
-    }
-    for (Tile tile1 : game.tiles) {
-      if (testMove.tileNumber == tile1.tileNumber) {
-        tile = tile1;
-      }
-    }
-    if (currPiece == null || tile == null) {
-      System.out.println("Error matching piece and move!");
-      System.exit(1);
-    }
-
-    //check for special logic
-    //check if object is pawn king or rook
-    if (currPiece.toString().equals("pawn")) {
-      ((Pawn)currPiece).firstMove = false;
-      //check if pawn on end tile
-      if (tile.endTile) {
-        //change pawn to queen
-        GameObject newPiece = new Queen(currPiece.getXPos(), currPiece.getYPos(), currPiece.getColor(), this.game, currPiece.getCurrTile(), currPiece.getPieceNumber());
-        //remove old piece and add new
-        game.gameObjects.remove(currPiece);
-        game.gameObjects.add(newPiece);
-        if (newPiece.getColor().equals(GameObject.tileColor.BLACK)) {
-          game.blackScore -= currPiece.getCost();
-          game.blackScore += newPiece.getCost();
+      //make sure tile and piece are in gameObjects and Tiles
+      for (GameObject piece : gameObjects) {
+        if (testPiece.getPieceNumber() == piece.getPieceNumber()) {
+          currPiece = piece;
         }
-        else {
-          game.whiteScore -= currPiece.getCost();
-          game.whiteScore += newPiece.getCost();
+      }
+      for (Tile tile1 : game.tiles) {
+        if (testMove.tileNumber == tile1.tileNumber) {
+          tile = tile1;
         }
-        currPiece = newPiece;
       }
-    }
-    if (currPiece.toString().equals("king")) {
-      ((King)currPiece).beenMoved = true;
-    }
-    if (currPiece.toString().equals("rook")) {
-      ((Rook)currPiece).beenMoved = true;
-    }
-
-    //check if right castle
-    if (currPiece.toString().equals("king") && ((King)currPiece).rightCastle) {
-      //check if castle tile chosen
-      if(tile.equals(currPiece.getCurrTile().right.right)) {
-        //move rook
-        GameObject rook = tile.right.currPiece;
-        tile.right.currPiece = null;
-        rook.setXPos(tile.left.xPos);
-        rook.setYPos(tile.left.yPos);
-        rook.setCurrTile(tile.left);
-        rook.getCurrTile().currPiece = rook;
-        ((King)currPiece).rightCastle = false;
+      if (currPiece == null || tile == null) {
+        System.out.println("Error matching piece and move!");
+        System.exit(1);
       }
-    }
 
-    //check if left castle
-    if (currPiece.toString().equals("king") && ((King)currPiece).leftCastle) {
-      //check if castle tile chosen
-      if(tile.equals(currPiece.getCurrTile().left.left)) {
-        //move rook
-        GameObject rook = tile.left.left.currPiece;
-        tile.left.left.currPiece = null;
-        rook.setXPos(tile.right.xPos);
-        rook.setYPos(tile.right.yPos);
-        rook.setCurrTile(tile.right);
-        rook.getCurrTile().currPiece = rook;
-        ((King)currPiece).leftCastle = false;
+      //check for special logic
+      //check if object is pawn king or rook
+      if (currPiece.toString().equals("pawn")) {
+        ((Pawn)currPiece).firstMove = false;
+        //check if pawn on end tile
+        if (tile.endTile) {
+          //change pawn to queen
+          GameObject newPiece = new Queen(currPiece.getXPos(), currPiece.getYPos(), currPiece.getColor(), this.game, currPiece.getCurrTile(), currPiece.getPieceNumber());
+          //remove old piece and add new
+          game.gameObjects.remove(currPiece);
+          game.gameObjects.add(newPiece);
+          if (newPiece.getColor().equals(GameObject.tileColor.BLACK)) {
+            game.blackScore -= currPiece.getCost();
+            game.blackScore += newPiece.getCost();
+          }
+          else {
+            game.whiteScore -= currPiece.getCost();
+            game.whiteScore += newPiece.getCost();
+          }
+          currPiece = newPiece;
+        }
       }
-    }
-
-
-    //move piece to tile
-    //move piece
-    GameObject oldPiece = tile.currPiece;
-    currPiece.getCurrTile().currPiece = null;
-    currPiece.setXPos(tile.xPos);
-    currPiece.setYPos(tile.yPos);
-    currPiece.setCurrTile(tile);
-    currPiece.getCurrTile().currPiece = currPiece;
-
-    //check if oldPiece exits and mark to remove
-    if (oldPiece != null) {
-      pieceToRemove = oldPiece;
-    }
-
-    //check if other king is now in check
-    king = null;
-    for (GameObject piece : gameObjects) {
-      if (piece.toString().equals("king") && !piece.getColor().equals(currPiece.getColor())) {
-        king = ((King)piece);
-        break;
+      if (currPiece.toString().equals("king")) {
+        ((King)currPiece).beenMoved = true;
       }
-    }
-    //send warning to user that king is in check
-    if (king != null && king.checkIfCheck(king.getCurrTile())) {
-      System.out.println(king.getColor().toString() + " King is in check!");
-      king.inCheck = true;
-      king.getCurrTile().inCheck = true;
-      checkTile = king.getCurrTile();
-    }
-    else if (king != null) {
-      king.inCheck = false;
-      checkTile.inCheck = false;
+      if (currPiece.toString().equals("rook")) {
+        ((Rook)currPiece).beenMoved = true;
+      }
+
+      //check if right castle
+      if (currPiece.toString().equals("king") && ((King)currPiece).rightCastle) {
+        //check if castle tile chosen
+        if(tile.equals(currPiece.getCurrTile().right.right)) {
+          //move rook
+          GameObject rook = tile.right.currPiece;
+          tile.right.currPiece = null;
+          rook.setXPos(tile.left.xPos);
+          rook.setYPos(tile.left.yPos);
+          rook.setCurrTile(tile.left);
+          rook.getCurrTile().currPiece = rook;
+          ((King)currPiece).rightCastle = false;
+        }
+      }
+
+      //check if left castle
+      if (currPiece.toString().equals("king") && ((King)currPiece).leftCastle) {
+        //check if castle tile chosen
+        if(tile.equals(currPiece.getCurrTile().left.left)) {
+          //move rook
+          GameObject rook = tile.left.left.currPiece;
+          tile.left.left.currPiece = null;
+          rook.setXPos(tile.right.xPos);
+          rook.setYPos(tile.right.yPos);
+          rook.setCurrTile(tile.right);
+          rook.getCurrTile().currPiece = rook;
+          ((King)currPiece).leftCastle = false;
+        }
+      }
+
+
+      //move piece to tile
+      //move piece
+      GameObject oldPiece = tile.currPiece;
+      currPiece.getCurrTile().currPiece = null;
+      currPiece.setXPos(tile.xPos);
+      currPiece.setYPos(tile.yPos);
+      currPiece.setCurrTile(tile);
+      currPiece.getCurrTile().currPiece = currPiece;
+
+      //check if oldPiece exits and mark to remove
+      if (oldPiece != null) {
+        pieceToRemove = oldPiece;
+      }
+
+      //check if other king is now in check
+      king = null;
+      for (GameObject piece : gameObjects) {
+        if (piece.toString().equals("king") && !piece.getColor().equals(currPiece.getColor())) {
+          king = ((King)piece);
+          break;
+        }
+      }
+      //send warning to user that king is in check
+      if (king != null && king.checkIfCheck(king.getCurrTile())) {
+        System.out.println(king.getColor().toString() + " King is in check!");
+        king.inCheck = true;
+        king.getCurrTile().inCheck = true;
+        checkTile = king.getCurrTile();
+      }
+      else if (king != null) {
+        king.inCheck = false;
+        checkTile.inCheck = false;
+      }
+      turnAI = false;
     }
   }
 }

@@ -106,6 +106,8 @@ public class GamePanel extends JPanel implements Runnable {
         checkIfCheckMate();
         //draw objects
         repaint();
+        //do AI turn
+        updater.doAITurn();
         //reset timers
         nextTime = currTime + frameTime;
       }
@@ -163,7 +165,7 @@ public class GamePanel extends JPanel implements Runnable {
     if(whiteKing.inCheck) {
       //check if any moves are possible
       for (int i = 0; i < gameObjects.size(); i++) {
-        if (!gameObjects.get(i).toString().equals("king") && gameObjects.get(i).getColor().equals(GameObject.tileColor.WHITE)) {
+        if (gameObjects.get(i).getColor().equals(GameObject.tileColor.WHITE)) {
           //check if any piece has the ability to be moved without the king still being in check
           if (testMoves(gameObjects.get(i), whiteKing)) {
             //there is a possible move
@@ -180,10 +182,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
     //check if black king in check
     if(blackKing.inCheck) {
-      printGameObjects();
+      //printGameObjects();
       //check if any moves are possible
       for (int i = 0; i < gameObjects.size(); i++) {
-        if (!gameObjects.get(i).toString().equals("king") && gameObjects.get(i).getColor().equals(GameObject.tileColor.BLACK)) {
+        if (gameObjects.get(i).getColor().equals(GameObject.tileColor.BLACK)) {
           //System.out.println("Testing moves for: " + gameObjects.get(i).getColor().toString() + " " + gameObjects.get(i).toString() + " " + gameObjects.get(i).hashCode());
           //check if any piece has the ability to be moved without the king still being in check
           if (testMoves(gameObjects.get(i), blackKing)) {
@@ -209,7 +211,8 @@ public class GamePanel extends JPanel implements Runnable {
       //put piece in tile
       oldPiece = tile.currPiece;
       oldTile = piece.getCurrTile();
-      piece.getCurrTile().currPiece = null;
+      oldTile.currPiece = null;
+      piece.setCurrTile(tile);
       tile.currPiece = piece;
 
       //check if king not in check
@@ -217,11 +220,13 @@ public class GamePanel extends JPanel implements Runnable {
         //fix piece changes
         tile.currPiece = oldPiece;
         oldTile.currPiece = piece;
+        piece.setCurrTile(oldTile);
         return true;
       }
       //fix piece changes
       tile.currPiece = oldPiece;
       oldTile.currPiece = piece;
+      piece.setCurrTile(oldTile);
     }
 
     //default return
