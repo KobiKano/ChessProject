@@ -11,10 +11,12 @@ public class ChessGame {
     protected boolean value;
     protected PlayerColor color;
     protected Integer difficulty;
-    protected Definitions(boolean value, PlayerColor color, Integer difficulty) {
+    protected boolean useOpenings;
+    protected Definitions(boolean value, PlayerColor color, Integer difficulty, boolean useOpenings) {
       this.value = value;
       this.color = color;
       this.difficulty = difficulty;
+      this.useOpenings = useOpenings;
     }
     protected void setValue(boolean value) {
       this.value = value;
@@ -25,6 +27,7 @@ public class ChessGame {
     protected void setDifficulty(Integer difficulty) {
       this.difficulty = difficulty;
     }
+    protected void setUseOpenings(boolean useOpenings) {this.useOpenings = useOpenings;}
   }
 
   //main method for game
@@ -38,7 +41,7 @@ public class ChessGame {
     window.setLocationRelativeTo(null);
 
     //start menu screen
-    Definitions definitions = new Definitions(false, PlayerColor.WHITE, 0); //default color white
+    Definitions definitions = new Definitions(false, PlayerColor.WHITE, 0, false); //default color white
     MenuPanel menu = new MenuPanel(window, definitions);
     window.add(menu);
     window.pack();

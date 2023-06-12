@@ -41,13 +41,15 @@ public class AI {
   boolean isAIWhite;
   GamePanel game;
   boolean thinking = false;
+  boolean useOpenings;
 
   //constructor for class
-  public AI(LinkedList<Tile> tiles, int difficulty, boolean isAIWhite, GamePanel game) {
+  public AI(LinkedList<Tile> tiles, int difficulty, boolean isAIWhite, GamePanel game, boolean useOpenings) {
     this.tiles = tiles;
     this.difficulty = difficulty;
     this.isAIWhite = isAIWhite;
     this.game = game;
+    this.useOpenings = useOpenings;
     if (isAIWhite) {
       this.color = GameObject.tileColor.WHITE;
     }
@@ -70,7 +72,7 @@ public class AI {
   }
 
   public void setUpOpeners() {
-    this.openers = new Openers(new Random().nextInt(9) + 1, isAIWhite, tiles);
+    this.openers = new Openers(new Random().nextInt(4) + 1, isAIWhite, tiles, useOpenings);
   }
 
 

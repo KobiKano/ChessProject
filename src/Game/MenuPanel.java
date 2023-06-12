@@ -2,6 +2,7 @@ package Game;
 
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class MenuPanel extends JPanel {
@@ -17,6 +18,7 @@ public class MenuPanel extends JPanel {
   private JButton white;
   private JSlider difficulty;
   private JTextField difficultyText;
+  private JCheckBox useOpenings;
 
 
   //constructor for class
@@ -41,6 +43,7 @@ public class MenuPanel extends JPanel {
     white = new JButton("White");
     difficulty = new JSlider(0,4,0);
     difficultyText = new JTextField("Difficulty: 0");
+    useOpenings = new JCheckBox("Use Predefined Openings");
 
     //add to menuPanel
     this.add(start);
@@ -49,6 +52,7 @@ public class MenuPanel extends JPanel {
     this.add(white);
     this.add(difficulty);
     this.add(difficultyText);
+    this.add(useOpenings);
     this.setLayout(null);
 
     //set parameters for start button
@@ -59,7 +63,7 @@ public class MenuPanel extends JPanel {
     });
 
     //set parameters for exit button
-    exit.setBounds(WIDTH/2 - BUTTON_WIDTH/2, 100 + 5*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
+    exit.setBounds(WIDTH/2 - BUTTON_WIDTH/2, 100 + 6*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
     exit.addActionListener(ActionListener->System.exit(0));
 
     //set parameters for black selection
@@ -115,5 +119,11 @@ public class MenuPanel extends JPanel {
 
     //set difficulty text parameters
     difficultyText.setBounds(WIDTH/2 - BUTTON_WIDTH/2, 30 + 80 + 4*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT/2);
+
+    //set use openings checkbox parameters
+    useOpenings.setBounds(WIDTH/2 - 2*BUTTON_WIDTH/2, 30 + 80 + 5*BUTTON_HEIGHT, 2*BUTTON_WIDTH, BUTTON_HEIGHT/2);
+    useOpenings.addChangeListener(ChangeListener->{
+      definitions.setUseOpenings(!definitions.useOpenings);
+    });
   }
 }

@@ -27,7 +27,14 @@ public class Openers {
   private int index = 0;
 
 
-  public Openers(int openingID, boolean isWhite, LinkedList<Tile> tiles) {
+  public Openers(int openingID, boolean isWhite, LinkedList<Tile> tiles, boolean useOpening) {
+    //check if openings being used
+    if (!useOpening) {
+      moves = new LinkedList<>();  //size zero linked list
+      return;
+    }
+
+    System.out.println("Using opening: " + openingID);
     //find all pieces based on color
     if (isWhite) {
       for (Tile tile : tiles) {
@@ -138,11 +145,36 @@ public class Openers {
     if (isWhite) {
       //check ID
       if (openingID == 1) {
+        moves = QueensGambit();
+      }
+      if (openingID == 2) {
+        moves = KingsGambit();
+      }
+      if (openingID == 3) {
+        moves = ViennaGame();
+      }
+      if (openingID == 4) {
+        moves = SmithMorraGambit();
+      }
+      else {
+        moves = RetiOpening();
       }
     }
     else {
       if (openingID == 1) {
         moves = FrenchDefense();
+      }
+      if (openingID == 2) {
+        moves = PircDefense();
+      }
+      if (openingID == 3) {
+        moves = SicilianDefense();
+      }
+      if (openingID == 4) {
+        moves = AlekhineDefense();
+      }
+      else {
+        moves = BudapestGambit();
       }
     }
   }
@@ -169,6 +201,110 @@ public class Openers {
     //move two
     output.add(new PieceMove(p4, p4.getCurrTile().below.below));
 
+    return output;
+  }
+
+  private LinkedList<PieceMove> PircDefense() {
+    LinkedList<PieceMove> output = new LinkedList<>();
+
+    //move one
+    output.add(new PieceMove(p4, p4.getCurrTile().below));
+    //move two
+    output.add(new PieceMove(k2, k2.getCurrTile().below.below.left));
+    //move three
+    output.add(new PieceMove(p7, p7.getCurrTile().below));
+
+    return output;
+  }
+
+  private LinkedList<PieceMove> SicilianDefense() {
+    LinkedList<PieceMove> output = new LinkedList<>();
+
+    //move one
+    output.add(new PieceMove(p3, p3.getCurrTile().below.below));
+
+    return output;
+  }
+
+  private LinkedList<PieceMove> AlekhineDefense() {
+    LinkedList<PieceMove> output = new LinkedList<>();
+
+    //move one
+    output.add(new PieceMove(p4, p4.getCurrTile().below.below));
+    //move two
+    output.add(new PieceMove(p3, p3.getCurrTile().below));
+
+    return output;
+  }
+
+  private LinkedList<PieceMove> BudapestGambit() {
+    LinkedList<PieceMove> output = new LinkedList<>();
+
+    //move one
+    output.add(new PieceMove(k2, k2.getCurrTile().below.below.left));
+    //move two
+    output.add(new PieceMove(p3, p3.getCurrTile().below.below));
+    //move three
+    output.add(new PieceMove(p2, p2.getCurrTile().below.below));
+
+    return output;
+  }
+
+  private LinkedList<PieceMove> QueensGambit() {
+    LinkedList<PieceMove> output = new LinkedList<>();
+
+    //move one
+    output.add(new PieceMove(p5, p5.getCurrTile().above.above));
+    //move two
+    output.add(new PieceMove(p6, p6.getCurrTile().above.above));
+
+    return output;
+  }
+
+  private LinkedList<PieceMove> KingsGambit() {
+    LinkedList<PieceMove> output = new LinkedList<>();
+
+    //move one
+    output.add(new PieceMove(p5, p5.getCurrTile().above.above));
+    //move two
+    output.add(new PieceMove(k1, k1.getCurrTile().above.above.right));
+
+    return output;
+  }
+
+  private LinkedList<PieceMove> ViennaGame() {
+    LinkedList<PieceMove> output = new LinkedList<>();
+
+    //move one
+    output.add(new PieceMove(p5, p5.getCurrTile().above.above));
+    //move two
+    output.add(new PieceMove(k2, k2.getCurrTile().above.above.left));
+
+    return output;
+  }
+
+  private LinkedList<PieceMove> SmithMorraGambit() {
+    LinkedList<PieceMove> output = new LinkedList<>();
+
+    //move one
+    output.add(new PieceMove(p3, p3.getCurrTile().above.above));
+    //move two
+    output.add(new PieceMove(p4, p4.getCurrTile().above.above));
+    //move three
+    output.add(new PieceMove(p7, p7.getCurrTile().above));
+
+    return output;
+  }
+
+  private LinkedList<PieceMove> RetiOpening() {
+    LinkedList<PieceMove> output = new LinkedList<>();
+
+    //move one
+    output.add(new PieceMove(k1, k1.getCurrTile().above.above.right));
+    //move two
+    output.add(new PieceMove(k2, k2.getCurrTile().above.above.left));
+    //move three
+    output.add(new PieceMove(p5,p5.getCurrTile().above.above));
 
     return output;
   }
