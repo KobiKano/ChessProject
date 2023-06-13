@@ -80,40 +80,71 @@ public class Board {
       for (int j = 0; j < 8; j++) {
         //check piece values
         if (board[i][j].equals("wp")) {
-          output += 1;
+          output += 10;
+          //check if pawn has been moved and weigh accordingly
+          if (i == 6) {
+            output += 10;
+          }
         }
         else if (board[i][j].equals("bp")) {
-          output -= 1;
+          output -= 10;
+          //check if pawn has been moved and weigh accordingly
+          if (i == 1) {
+            output -= 5;
+          }
         }
         else if (board[i][j].equals("wb")) {
-          output += 3;
+          output += 30;
         }
         else if (board[i][j].equals("bb")) {
-          output -= 3;
+          output -= 30;
         }
         else if (board[i][j].equals("wk")) {
-          output += 3;
+          output += 30;
+          //add weight for knight being closer to center
+          if (j > 1 && j < 6) {
+            output += 7;
+          }
         }
         else if (board[i][j].equals("bk")) {
-          output -= 3;
+          output -= 30;
+          //add weight for knight being closer to center
+          if (j > 1 && j < 6) {
+            output -= 7;
+          }
         }
         else if (board[i][j].equals("wr")) {
-          output += 5;
+          output += 50;
+          //weight AI to move rooks out of corners
+          if ((i == 7 && j == 0) || (i == 7 && j == 7)) {
+            output -= 2;
+          }
         }
         else if (board[i][j].equals("br")) {
-          output -= 5;
+          output -= 50;
+          //weight AI to move rooks out of corners
+          if ((i == 0 && j == 7) || (i == 0 && j == 0)) {
+            output += 2;
+          }
         }
         else if (board[i][j].equals("wq")) {
-          output += 9;
+          output += 90;
         }
         else if (board[i][j].equals("bq")) {
-          output -= 9;
+          output -= 90;
         }
         else if (board[i][j].equals("wK")) {
           output += 1000;
+          //weight AI to have king closer to corner
+          if (j > 6 || j < 2) {
+            output += 15;
+          }
         }
         else if (board[i][j].equals("bK")) {
           output -= 1000;
+          if (j > 6 || j < 2) {
+            output -= 15;
+          }
         }
       }
     }

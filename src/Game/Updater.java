@@ -185,13 +185,13 @@ public class Updater implements MouseListener {
               //send warning
               System.out.println("Invalid Move! Put own king in check!");
               //move piece back
-              game.blackTurn = !game.blackTurn;
               pieceToRemove = null;
               currPiece.setXPos(oldXPos);
               currPiece.setYPos(oldYPos);
               currPiece.getCurrTile().currPiece = oldPiece;
               currPiece.setCurrTile(oldTile);
               oldTile.currPiece = currPiece;
+              return;
             }
           }
 

@@ -41,7 +41,7 @@ public class MenuPanel extends JPanel {
     exit = new JButton("Exit");
     black = new JButton("Black");
     white = new JButton("White");
-    difficulty = new JSlider(0,4,0);
+    difficulty = new JSlider(0,3,0);
     difficultyText = new JTextField("Difficulty: 0");
     useOpenings = new JCheckBox("Use Predefined Openings");
 
@@ -119,6 +119,7 @@ public class MenuPanel extends JPanel {
 
     //set difficulty text parameters
     difficultyText.setBounds(WIDTH/2 - BUTTON_WIDTH/2, 30 + 80 + 4*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT/2);
+    difficultyText.setBackground(Color.green);
 
     //set use openings checkbox parameters
     useOpenings.setBounds(WIDTH/2 - 2*BUTTON_WIDTH/2, 30 + 80 + 5*BUTTON_HEIGHT, 2*BUTTON_WIDTH, BUTTON_HEIGHT/2);
