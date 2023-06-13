@@ -172,6 +172,7 @@ public class Updater implements MouseListener {
           oldTile = currPiece.getCurrTile();
           currPiece.setCurrTile(tile);
           currPiece.getCurrTile().currPiece = currPiece;
+          gameObjects.remove(oldPiece);
 
 
           //deselect all tiles and piece
@@ -191,6 +192,7 @@ public class Updater implements MouseListener {
               currPiece.getCurrTile().currPiece = oldPiece;
               currPiece.setCurrTile(oldTile);
               oldTile.currPiece = currPiece;
+              gameObjects.add(oldPiece);
               return;
             }
           }
