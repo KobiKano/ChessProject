@@ -40,6 +40,7 @@ public class Tile{
   //copy constructor
   public Tile(Tile tile) {
     this.tileNumber = tile.tileNumber;
+    this.endTile = tile.endTile;
     //find what object is on the tile
     if (tile.currPiece == null) {
       this.currPiece = null;

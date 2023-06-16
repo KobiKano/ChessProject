@@ -144,26 +144,26 @@ public class Pawn implements GameObject, Comparable{
     }
 
     //if not first move
-    else if (!firstMove && color == tileColor.WHITE && currTile.above.currPiece == null) {
+    else if (!firstMove && color == tileColor.WHITE && currTile.above != null && currTile.above.currPiece == null) {
       output.add(currTile.above);
     }
-    else if (!firstMove && color == tileColor.BLACK && currTile.below.currPiece == null) {
+    else if (!firstMove && color == tileColor.BLACK && currTile.below != null && currTile.below.currPiece == null) {
       output.add(currTile.below);
     }
 
     //check if pieces to the left
-    if (currTile.above.left != null && color == tileColor.WHITE && currTile.above.left.currPiece != null && currTile.above.left.currPiece.getColor() == tileColor.BLACK) {
+    if (currTile.above != null && currTile.above.left != null && color == tileColor.WHITE && currTile.above.left.currPiece != null && currTile.above.left.currPiece.getColor() == tileColor.BLACK) {
       output.add(currTile.above.left);
     }
-    else if (currTile.below.left != null && color == tileColor.BLACK && currTile.below.left.currPiece != null && currTile.below.left.currPiece.getColor() == tileColor.WHITE) {
+    else if (currTile.below != null && currTile.below.left != null && color == tileColor.BLACK && currTile.below.left.currPiece != null && currTile.below.left.currPiece.getColor() == tileColor.WHITE) {
       output.add(currTile.below.left);
     }
 
     //check if pieces to the right
-    if (currTile.above.right != null && color == tileColor.WHITE && currTile.above.right.currPiece != null && currTile.above.right.currPiece.getColor() == tileColor.BLACK) {
+    if (currTile.above != null && currTile.above.right != null && color == tileColor.WHITE && currTile.above.right.currPiece != null && currTile.above.right.currPiece.getColor() == tileColor.BLACK) {
       output.add(currTile.above.right);
     }
-    else if (currTile.below.right != null && color == tileColor.BLACK && currTile.below.right.currPiece != null && currTile.below.right.currPiece.getColor() == tileColor.WHITE) {
+    else if (currTile.below != null && currTile.below.right != null && color == tileColor.BLACK && currTile.below.right.currPiece != null && currTile.below.right.currPiece.getColor() == tileColor.WHITE) {
       output.add(currTile.below.right);
     }
 
