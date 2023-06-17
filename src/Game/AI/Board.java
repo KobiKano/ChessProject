@@ -138,6 +138,15 @@ public class Board {
             output -= 15;
           }
         }
+
+        //extra weight on simply having more points than the other
+        if (output > 30) {
+          output += 30;
+        }
+        if (output < -30) {
+          output -= 30;
+        }
+
       }
     }
 
