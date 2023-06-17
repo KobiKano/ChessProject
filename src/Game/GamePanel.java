@@ -106,8 +106,17 @@ public class GamePanel extends JPanel implements Runnable {
         checkIfCheckMate();
         //draw objects
         repaint();
+
         //do AI turn
-        updater.doAITurn();
+        Thread AI = new Thread(updater::doAITurn);
+        AI.start();
+        try {
+          AI.join();  //wait until AI finished its move to continue
+        }
+        catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+
         //reset timers
         nextTime = currTime + frameTime;
       }

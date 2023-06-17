@@ -127,7 +127,7 @@ public class AI {
     LinkedList<Tile> tiles = copyTiles(this.tiles);
     //find current state of board
     Board board = new Board(tiles);
-    //board.printBoard();
+    board.printBoard();
 
     //start with current context of the board as root
     root = new TreeNode(new Node(null,board,board.getValue(isAIWhite)), null);
