@@ -115,17 +115,9 @@ public class Board {
         }
         else if (board[i][j].equals("wr")) {
           output += 50;
-          //weight AI to move rooks out of corners
-          if ((i == 7 && j == 0) || (i == 7 && j == 7)) {
-            output -= 2;
-          }
         }
         else if (board[i][j].equals("br")) {
           output -= 50;
-          //weight AI to move rooks out of corners
-          if ((i == 0 && j == 7) || (i == 0 && j == 0)) {
-            output += 2;
-          }
         }
         else if (board[i][j].equals("wq")) {
           output += 90;
@@ -136,13 +128,13 @@ public class Board {
         else if (board[i][j].equals("wK")) {
           output += 1000;
           //weight AI to have king closer to corner
-          if (j > 6 || j < 2) {
+          if (j == 0 || j == 7) {
             output += 15;
           }
         }
         else if (board[i][j].equals("bK")) {
           output -= 1000;
-          if (j > 6 || j < 2) {
+          if (j == 0 || j == 7) {
             output -= 15;
           }
         }
